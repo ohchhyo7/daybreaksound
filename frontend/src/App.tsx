@@ -6,8 +6,7 @@ import {
   type MouseEvent,
   type ReactNode,
 } from "react";
-import clubPhoto from "./assets/club-photo.jpg";
-import dbRulePhoto from "./assets/db-rule.jpg";
+import clubPhoto from "./assets/db-cp.jpg";
 
 type SectionId = "intro" | "news" | "schedule" | "gallery";
 type PageView = "home" | "rule" | "apply" | "login";
@@ -106,7 +105,7 @@ function RevealSection({
           setVisible(true);
         }
       },
-      { threshold: 0.14 }
+      { threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -121,9 +120,9 @@ function RevealSection({
         opacity: visible ? 1 : 0,
         transform: visible
           ? "translateY(0) scale(1) rotateX(0deg)"
-          : "translateY(48px) scale(0.96) rotateX(4deg)",
+          : "translateY(36px) scale(0.97) rotateX(3deg)",
         transition:
-          "opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1)",
+          "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
       }}
     >
       {children}
@@ -135,10 +134,10 @@ const inputStyle = {
   width: "100%",
   boxSizing: "border-box" as const,
   padding: "14px 16px",
-  fontSize: "14px",
-  color: "#1E1B2E",
-  backgroundColor: "#FAF9FD",
-  border: "1px solid #DED8EE",
+  fontSize: "15px",
+  color: "#1E241B",
+  backgroundColor: "#F9FAF7",
+  border: "1px solid #D5DDD0",
   borderRadius: "14px",
   outline: "none",
   fontFamily: "inherit",
@@ -148,7 +147,7 @@ const labelStyle = {
   display: "block",
   fontSize: "13px",
   fontWeight: 700,
-  color: "#2B2347",
+  color: "#2B3525",
   marginBottom: "8px",
 };
 
@@ -157,6 +156,19 @@ export default function App() {
   const [activeSection, setActiveSection] = useState<SectionId>("intro");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth <= 768 : false
+  );
+
+  // 화면 크기 변화 감지 (모바일/데스크톱 자동 전환)
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // 신입 지원 폼 상태
   const [applyForm, setApplyForm] = useState({
@@ -201,6 +213,7 @@ export default function App() {
   }, [page]);
 
   const handleHeroMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (isMobile) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const relX = (e.clientX - rect.left) / rect.width - 0.5;
     const relY = (e.clientY - rect.top) / rect.height - 0.5;
@@ -262,8 +275,8 @@ export default function App() {
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "#F6F4FA",
-        color: "#1E1B2E",
+        backgroundColor: "#F4F5F0",
+        color: "#1E241B",
         fontFamily: "'Noto Sans KR', sans-serif",
         textAlign: "left",
         overflowX: "hidden",
@@ -275,7 +288,7 @@ export default function App() {
         @keyframes heroRise {
           0% {
             opacity: 0;
-            transform: translateY(44px) scale(0.95);
+            transform: translateY(36px) scale(0.96);
           }
           100% {
             opacity: 1;
@@ -286,48 +299,48 @@ export default function App() {
         @keyframes gearLaunchLeft {
           0% {
             opacity: 0;
-            transform: translateY(140px) rotate(-28deg) scale(0.7);
+            transform: translateY(120px) rotate(-24deg) scale(0.75);
           }
           65% {
             opacity: 1;
-            transform: translateY(-14px) rotate(-8deg) scale(1.04);
+            transform: translateY(-10px) rotate(-8deg) scale(1.03);
           }
           100% {
             opacity: 1;
-            transform: translateY(0) rotate(-12deg) scale(1);
+            transform: translateY(0) rotate(-10deg) scale(1);
           }
         }
 
         @keyframes gearLaunchRight {
           0% {
             opacity: 0;
-            transform: translateY(160px) rotate(26deg) scale(0.7);
+            transform: translateY(140px) rotate(24deg) scale(0.75);
           }
           65% {
             opacity: 1;
-            transform: translateY(-16px) rotate(8deg) scale(1.05);
+            transform: translateY(-12px) rotate(8deg) scale(1.03);
           }
           100% {
             opacity: 1;
-            transform: translateY(0) rotate(12deg) scale(1);
+            transform: translateY(0) rotate(10deg) scale(1);
           }
         }
 
         @keyframes floatGuitar {
           0%, 100% {
-            transform: translateY(0px) rotate(-12deg);
+            transform: translateY(0px) rotate(-10deg);
           }
           50% {
-            transform: translateY(-18px) rotate(-6deg);
+            transform: translateY(-14px) rotate(-5deg);
           }
         }
 
         @keyframes floatMic {
           0%, 100% {
-            transform: translateY(0px) rotate(12deg);
+            transform: translateY(0px) rotate(10deg);
           }
           50% {
-            transform: translateY(-22px) rotate(18deg);
+            transform: translateY(-16px) rotate(15deg);
           }
         }
 
@@ -355,16 +368,16 @@ export default function App() {
           transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
         }
         .magic-card:hover {
-          transform: translateY(-8px) scale(1.015);
-          box-shadow: 0 22px 44px rgba(75, 63, 114, 0.14);
+          transform: translateY(-6px) scale(1.01);
+          box-shadow: 0 20px 40px rgba(59, 71, 51, 0.13);
         }
 
         .magic-btn {
           transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background-color 0.25s ease;
         }
         .magic-btn:hover {
-          transform: translateY(-3px) scale(1.03);
-          box-shadow: 0 12px 24px rgba(91, 75, 138, 0.26);
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 10px 22px rgba(75, 88, 66, 0.24);
         }
       `}</style>
 
@@ -377,7 +390,7 @@ export default function App() {
             left: 0,
             height: "4px",
             width: `${scrollProgress}%`,
-            background: "linear-gradient(90deg, #9D8DF1 0%, #5B4B8A 100%)",
+            background: "linear-gradient(90deg, #7E916F 0%, #4B5842 100%)",
             zIndex: 60,
             transition: "width 0.1s linear",
           }}
@@ -391,12 +404,14 @@ export default function App() {
           top: 0,
           zIndex: 40,
           display: "flex",
+          flexWrap: "wrap",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "18px 48px",
-          backgroundColor: "rgba(246, 244, 250, 0.88)",
+          gap: "10px",
+          padding: isMobile ? "14px 18px" : "18px 48px",
+          backgroundColor: "rgba(244, 245, 240, 0.9)",
           backdropFilter: "blur(12px)",
-          borderBottom: "1px solid #E6E1F2",
+          borderBottom: "1px solid #DCE2D6",
         }}
       >
         <button
@@ -404,8 +419,8 @@ export default function App() {
           onClick={goHome}
           style={{
             fontWeight: 900,
-            fontSize: "21px",
-            color: "#2B2347",
+            fontSize: isMobile ? "19px" : "21px",
+            color: "#263020",
             background: "transparent",
             border: "none",
             cursor: "pointer",
@@ -415,46 +430,54 @@ export default function App() {
           새벽소리.
         </button>
 
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: isMobile ? "6px" : "10px",
+            alignItems: "center",
+          }}
+        >
           <button
             type="button"
             onClick={openRule}
             className="magic-btn"
             style={{
-              padding: "8px 14px",
-              fontSize: "13px",
+              padding: isMobile ? "7px 11px" : "8px 14px",
+              fontSize: isMobile ? "12px" : "13px",
               fontWeight: 700,
-              color: page === "rule" ? "#FFFFFF" : "#5B4B8A",
-              backgroundColor: page === "rule" ? "#5B4B8A" : "#EAE4F7",
+              color: page === "rule" ? "#FFFFFF" : "#4B5842",
+              backgroundColor: page === "rule" ? "#4B5842" : "#E2E7DC",
               border: "none",
               borderRadius: "999px",
               cursor: "pointer",
             }}
           >
-            새벽소리 RULE
+            {isMobile ? "RULE" : "새벽소리 RULE"}
           </button>
 
           <a
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="새벽소리 인스타그램"
             className="magic-btn"
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "6px",
-              padding: "8px 14px",
-              fontSize: "13px",
+              gap: "5px",
+              padding: isMobile ? "7px 10px" : "8px 14px",
+              fontSize: isMobile ? "12px" : "13px",
               fontWeight: 600,
-              color: "#5B4B8A",
+              color: "#4B5842",
               backgroundColor: "#FFFFFF",
-              border: "1px solid #DFD7F2",
+              border: "1px solid #D3DBD0",
               borderRadius: "999px",
               textDecoration: "none",
             }}
           >
             <InstagramIcon size={15} />
-            <span>Instagram</span>
+            {!isMobile && <span>Instagram</span>}
           </a>
 
           <button
@@ -462,17 +485,17 @@ export default function App() {
             onClick={openLogin}
             className="magic-btn"
             style={{
-              padding: "8px 14px",
-              fontSize: "13px",
+              padding: isMobile ? "7px 10px" : "8px 14px",
+              fontSize: isMobile ? "12px" : "13px",
               fontWeight: page === "login" ? 700 : 500,
-              color: page === "login" ? "#2B2347" : "#4A4266",
-              background: page === "login" ? "#EAE4F7" : "transparent",
+              color: page === "login" ? "#263020" : "#46523E",
+              background: page === "login" ? "#E2E7DC" : "transparent",
               border: "none",
               borderRadius: "999px",
               cursor: "pointer",
             }}
           >
-            회원 로그인
+            {isMobile ? "로그인" : "회원 로그인"}
           </button>
 
           <button
@@ -480,10 +503,10 @@ export default function App() {
             onClick={openApply}
             className="magic-btn"
             style={{
-              padding: "9px 18px",
-              fontSize: "13px",
+              padding: isMobile ? "7px 13px" : "9px 18px",
+              fontSize: isMobile ? "12px" : "13px",
               fontWeight: 600,
-              backgroundColor: page === "apply" ? "#3E3263" : "#5B4B8A",
+              backgroundColor: page === "apply" ? "#343F2E" : "#4B5842",
               color: "#FFFFFF",
               border: "none",
               borderRadius: "999px",
@@ -499,9 +522,9 @@ export default function App() {
       {page === "rule" && (
         <div
           style={{
-            maxWidth: "1040px",
+            maxWidth: "820px",
             margin: "0 auto",
-            padding: "56px 36px 110px",
+            padding: isMobile ? "32px 20px 80px" : "56px 36px 110px",
             animation: "heroRise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both",
           }}
         >
@@ -511,12 +534,12 @@ export default function App() {
             style={{
               background: "transparent",
               border: "none",
-              color: "#6D5B9E",
+              color: "#55644B",
               fontSize: "13px",
               fontWeight: 700,
               cursor: "pointer",
               padding: 0,
-              marginBottom: "24px",
+              marginBottom: "20px",
             }}
           >
             ← 홈으로 돌아가기
@@ -529,10 +552,10 @@ export default function App() {
               fontSize: "11px",
               fontWeight: 800,
               letterSpacing: "0.08em",
-              backgroundColor: "#EAE4F7",
-              color: "#5B4B8A",
+              backgroundColor: "#E2E7DC",
+              color: "#4B5842",
               borderRadius: "999px",
-              marginBottom: "14px",
+              marginBottom: "12px",
             }}
           >
             2026 DAYBREAK SOUND RULE
@@ -540,10 +563,10 @@ export default function App() {
 
           <h1
             style={{
-              fontSize: "44px",
+              fontSize: isMobile ? "28px" : "44px",
               fontWeight: 900,
-              lineHeight: 1.2,
-              color: "#1E1B2E",
+              lineHeight: 1.25,
+              color: "#1E241B",
               margin: "0 0 12px",
               letterSpacing: "-0.02em",
             }}
@@ -553,9 +576,10 @@ export default function App() {
 
           <p
             style={{
-              fontSize: "15px",
-              color: "#5E5678",
-              margin: "0 0 40px",
+              fontSize: isMobile ? "14px" : "15px",
+              color: "#586352",
+              margin: "0 0 32px",
+              lineHeight: 1.6,
             }}
           >
             즐겁고 건강한 동방 생활을 위해 새벽소리 부원 모두가 함께 지키는 약속입니다.
@@ -563,176 +587,100 @@ export default function App() {
 
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "1.35fr 1fr",
-              gap: "28px",
-              alignItems: "start",
+              display: "flex",
+              flexDirection: "column",
+              gap: "14px",
             }}
           >
-            {/* 왼쪽: 7가지 규칙 카드 리스트 */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "14px",
-              }}
-            >
-              {CLUB_RULES.map((rule, idx) => (
+            {CLUB_RULES.map((rule, idx) => (
+              <div
+                key={rule.num}
+                className="magic-card"
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: "20px",
+                  padding: isMobile ? "18px 20px" : "24px 28px",
+                  border: rule.important
+                    ? "2px solid #5A6B4F"
+                    : "1px solid #DCE2D6",
+                  boxShadow: rule.important
+                    ? "0 12px 28px rgba(75, 88, 66, 0.14)"
+                    : "0 6px 18px rgba(59, 71, 51, 0.04)",
+                  animation: `heroRise 0.6s cubic-bezier(0.22, 1, 0.36, 1) ${
+                    idx * 0.06
+                  }s both`,
+                }}
+              >
                 <div
-                  key={rule.num}
-                  className="magic-card"
                   style={{
-                    backgroundColor: "#FFFFFF",
-                    borderRadius: "22px",
-                    padding: "22px 26px",
-                    border: rule.important
-                      ? "2px solid #7C69B5"
-                      : "1px solid #E6E1F2",
-                    boxShadow: rule.important
-                      ? "0 12px 28px rgba(91, 75, 138, 0.14)"
-                      : "0 6px 18px rgba(75, 63, 114, 0.04)",
-                    animation: `heroRise 0.6s cubic-bezier(0.22, 1, 0.36, 1) ${
-                      idx * 0.06
-                    }s both`,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    marginBottom: "8px",
                   }}
                 >
-                  <div
+                  <span
                     style={{
-                      display: "flex",
+                      display: "inline-flex",
                       alignItems: "center",
-                      gap: "10px",
-                      marginBottom: "8px",
+                      justifyContent: "center",
+                      width: "28px",
+                      height: "28px",
+                      borderRadius: "999px",
+                      backgroundColor: "#4B5842",
+                      color: "#FFFFFF",
+                      fontSize: "12px",
+                      fontWeight: 800,
+                      flexShrink: 0,
                     }}
                   >
+                    {rule.num}
+                  </span>
+
+                  <h2
+                    style={{
+                      fontSize: isMobile ? "16px" : "19px",
+                      fontWeight: 800,
+                      color: "#1E241B",
+                      margin: 0,
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    {rule.title}
+                  </h2>
+
+                  {rule.important && (
                     <span
                       style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "28px",
-                        height: "28px",
-                        borderRadius: "999px",
-                        backgroundColor: "#5B4B8A",
-                        color: "#FFFFFF",
-                        fontSize: "12px",
+                        padding: "4px 10px",
+                        fontSize: "11px",
                         fontWeight: 800,
+                        borderRadius: "999px",
+                        backgroundColor: "#FDECEC",
+                        color: "#C92A2A",
+                        marginLeft: "auto",
                         flexShrink: 0,
                       }}
                     >
-                      {rule.num}
+                      ★ 중요!!!
                     </span>
-
-                    <h2
-                      style={{
-                        fontSize: "18px",
-                        fontWeight: 800,
-                        color: "#221C38",
-                        margin: 0,
-                      }}
-                    >
-                      {rule.title}
-                    </h2>
-
-                    {rule.important && (
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          fontSize: "11px",
-                          fontWeight: 800,
-                          borderRadius: "999px",
-                          backgroundColor: "#FFE8EC",
-                          color: "#D6336C",
-                          marginLeft: "auto",
-                          flexShrink: 0,
-                        }}
-                      >
-                        ★ 중요!!!
-                      </span>
-                    )}
-                  </div>
-
-                  <p
-                    style={{
-                      margin: 0,
-                      paddingLeft: "38px",
-                      fontSize: "14px",
-                      fontWeight: 600,
-                      color: "#6D5B9E",
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    - {rule.sub}
-                  </p>
+                  )}
                 </div>
-              ))}
-            </div>
 
-            {/* 오른쪽: 동방 화이트보드 원본 사진 */}
-            <div
-              style={{
-                position: "sticky",
-                top: "92px",
-                backgroundColor: "#FFFFFF",
-                borderRadius: "26px",
-                padding: "20px",
-                border: "1px solid #E6E1F2",
-                boxShadow: "0 16px 36px rgba(75, 63, 114, 0.1)",
-              }}
-            >
-              <div
-                style={{
-                  borderRadius: "18px",
-                  overflow: "hidden",
-                  border: "1px solid #EFEBF7",
-                  marginBottom: "14px",
-                }}
-              >
-                <img
-                  src={dbRulePhoto}
-                  alt="2026년 새벽소리 RULE 화이트보드 사진"
+                <p
                   style={{
-                    width: "100%",
-                    height: "auto",
-                    display: "block",
-                  }}
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "4px 6px",
-                }}
-              >
-                <div>
-                  <div
-                    style={{
-                      fontSize: "13px",
-                      fontWeight: 800,
-                      color: "#2B2347",
-                    }}
-                  >
-                    동아리방 화이트보드 직찍
-                  </div>
-                  <div style={{ fontSize: "12px", color: "#8A81A6" }}>
-                    2026년 새벽소리 공식 수칙
-                  </div>
-                </div>
-                <span
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    padding: "5px 10px",
-                    borderRadius: "999px",
-                    backgroundColor: "#F2EEFA",
-                    color: "#5B4B8A",
+                    margin: 0,
+                    paddingLeft: "40px",
+                    fontSize: isMobile ? "13px" : "14px",
+                    fontWeight: 600,
+                    color: "#55644B",
+                    lineHeight: 1.5,
                   }}
                 >
-                  필독
-                </span>
+                  - {rule.sub}
+                </p>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       )}
@@ -743,7 +691,7 @@ export default function App() {
           style={{
             maxWidth: "820px",
             margin: "0 auto",
-            padding: "56px 32px 100px",
+            padding: isMobile ? "32px 20px 80px" : "56px 32px 100px",
             animation: "heroRise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both",
           }}
         >
@@ -753,12 +701,12 @@ export default function App() {
             style={{
               background: "transparent",
               border: "none",
-              color: "#6D5B9E",
+              color: "#55644B",
               fontSize: "13px",
               fontWeight: 700,
               cursor: "pointer",
               padding: 0,
-              marginBottom: "24px",
+              marginBottom: "20px",
             }}
           >
             ← 홈으로 돌아가기
@@ -769,8 +717,8 @@ export default function App() {
               fontSize: "12px",
               fontWeight: 800,
               letterSpacing: "0.08em",
-              color: "#6D5B9E",
-              marginBottom: "12px",
+              color: "#55644B",
+              marginBottom: "10px",
             }}
           >
             JOIN THE NEXT CHAPTER
@@ -778,11 +726,11 @@ export default function App() {
 
           <h1
             style={{
-              fontSize: "44px",
+              fontSize: isMobile ? "32px" : "44px",
               fontWeight: 900,
-              lineHeight: 1.2,
-              color: "#1E1B2E",
-              margin: "0 0 16px",
+              lineHeight: 1.22,
+              color: "#1E241B",
+              margin: "0 0 14px",
               letterSpacing: "-0.02em",
             }}
           >
@@ -793,9 +741,10 @@ export default function App() {
 
           <p
             style={{
-              fontSize: "15px",
-              color: "#5E5678",
-              margin: "0 0 36px",
+              fontSize: isMobile ? "14px" : "15px",
+              color: "#586352",
+              margin: "0 0 28px",
+              lineHeight: 1.6,
             }}
           >
             잘하는 것보다 좋아하는 마음을 기다립니다. 아래 내용을 편하게 작성해 주세요.
@@ -804,21 +753,21 @@ export default function App() {
           <div
             style={{
               backgroundColor: "#FFFFFF",
-              borderRadius: "28px",
-              padding: "40px",
-              border: "1px solid #E6E1F2",
-              boxShadow: "0 12px 32px rgba(75, 63, 114, 0.06)",
+              borderRadius: isMobile ? "22px" : "28px",
+              padding: isMobile ? "24px 20px" : "40px",
+              border: "1px solid #DCE2D6",
+              boxShadow: "0 12px 32px rgba(59, 71, 51, 0.06)",
             }}
           >
             {applySubmitted ? (
-              <div style={{ textAlign: "center", padding: "32px 16px" }}>
+              <div style={{ textAlign: "center", padding: "24px 12px" }}>
                 <div
                   style={{
                     display: "inline-block",
                     padding: "6px 14px",
                     borderRadius: "999px",
-                    backgroundColor: "#EAE4F7",
-                    color: "#5B4B8A",
+                    backgroundColor: "#E2E7DC",
+                    color: "#4B5842",
                     fontSize: "12px",
                     fontWeight: 700,
                     marginBottom: "16px",
@@ -828,9 +777,9 @@ export default function App() {
                 </div>
                 <h2
                   style={{
-                    fontSize: "26px",
+                    fontSize: isMobile ? "22px" : "26px",
                     fontWeight: 800,
-                    color: "#221C38",
+                    color: "#1E241B",
                     marginBottom: "10px",
                   }}
                 >
@@ -839,8 +788,9 @@ export default function App() {
                 <p
                   style={{
                     fontSize: "14px",
-                    color: "#686082",
+                    color: "#606B5A",
                     marginBottom: "28px",
+                    lineHeight: 1.6,
                   }}
                 >
                   입력하신 연락처({applyForm.phone || "미입력"})로 면접 및 오리엔테이션 안내를 드리겠습니다.
@@ -853,7 +803,7 @@ export default function App() {
                     padding: "13px 26px",
                     fontSize: "14px",
                     fontWeight: 700,
-                    backgroundColor: "#5B4B8A",
+                    backgroundColor: "#4B5842",
                     color: "#FFFFFF",
                     border: "none",
                     borderRadius: "999px",
@@ -868,9 +818,9 @@ export default function App() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "20px",
-                    marginBottom: "20px",
+                    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                    gap: "18px",
+                    marginBottom: "18px",
                   }}
                 >
                   <div>
@@ -904,9 +854,9 @@ export default function App() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "20px",
-                    marginBottom: "20px",
+                    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+                    gap: "18px",
+                    marginBottom: "18px",
                   }}
                 >
                   <div>
@@ -937,7 +887,12 @@ export default function App() {
                   </div>
                 </div>
 
-                <div style={{ maxWidth: "350px", marginBottom: "20px" }}>
+                <div
+                  style={{
+                    maxWidth: isMobile ? "100%" : "350px",
+                    marginBottom: "18px",
+                  }}
+                >
                   <label style={labelStyle}>학번</label>
                   <input
                     type="text"
@@ -951,7 +906,7 @@ export default function App() {
                   />
                 </div>
 
-                <div style={{ marginBottom: "28px" }}>
+                <div style={{ marginBottom: "24px" }}>
                   <label style={labelStyle}>지원 동기</label>
                   <textarea
                     required
@@ -973,10 +928,11 @@ export default function App() {
                     type="submit"
                     className="magic-btn"
                     style={{
+                      width: isMobile ? "100%" : "auto",
                       padding: "14px 28px",
                       fontSize: "15px",
                       fontWeight: 700,
-                      backgroundColor: "#5B4B8A",
+                      backgroundColor: "#4B5842",
                       color: "#FFFFFF",
                       border: "none",
                       borderRadius: "999px",
@@ -998,7 +954,7 @@ export default function App() {
           style={{
             maxWidth: "460px",
             margin: "0 auto",
-            padding: "72px 24px 120px",
+            padding: isMobile ? "36px 20px 90px" : "72px 24px 120px",
             animation: "heroRise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both",
           }}
         >
@@ -1008,12 +964,12 @@ export default function App() {
             style={{
               background: "transparent",
               border: "none",
-              color: "#6D5B9E",
+              color: "#55644B",
               fontSize: "13px",
               fontWeight: 700,
               cursor: "pointer",
               padding: 0,
-              marginBottom: "24px",
+              marginBottom: "20px",
             }}
           >
             ← 홈으로 돌아가기
@@ -1022,10 +978,10 @@ export default function App() {
           <div
             style={{
               backgroundColor: "#FFFFFF",
-              borderRadius: "28px",
-              padding: "40px 36px",
-              border: "1px solid #E6E1F2",
-              boxShadow: "0 12px 32px rgba(75, 63, 114, 0.08)",
+              borderRadius: isMobile ? "22px" : "28px",
+              padding: isMobile ? "28px 22px" : "40px 36px",
+              border: "1px solid #DCE2D6",
+              boxShadow: "0 12px 32px rgba(59, 71, 51, 0.08)",
             }}
           >
             <div
@@ -1033,7 +989,7 @@ export default function App() {
                 fontSize: "12px",
                 fontWeight: 800,
                 letterSpacing: "0.08em",
-                color: "#6D5B9E",
+                color: "#55644B",
                 marginBottom: "8px",
               }}
             >
@@ -1041,9 +997,9 @@ export default function App() {
             </div>
             <h1
               style={{
-                fontSize: "28px",
+                fontSize: isMobile ? "24px" : "28px",
                 fontWeight: 900,
-                color: "#221C38",
+                color: "#1E241B",
                 margin: "0 0 8px",
               }}
             >
@@ -1052,15 +1008,16 @@ export default function App() {
             <p
               style={{
                 fontSize: "14px",
-                color: "#686082",
-                margin: "0 0 28px",
+                color: "#606B5A",
+                margin: "0 0 24px",
+                lineHeight: 1.5,
               }}
             >
               공지사항, 회비, 일정 관리는 부원 로그인 후 이용할 수 있습니다.
             </p>
 
             <form onSubmit={handleLoginSubmit}>
-              <div style={{ marginBottom: "18px" }}>
+              <div style={{ marginBottom: "16px" }}>
                 <label style={labelStyle}>아이디</label>
                 <input
                   type="text"
@@ -1073,7 +1030,7 @@ export default function App() {
                 />
               </div>
 
-              <div style={{ marginBottom: "24px" }}>
+              <div style={{ marginBottom: "22px" }}>
                 <label style={labelStyle}>비밀번호</label>
                 <input
                   type="password"
@@ -1091,8 +1048,8 @@ export default function App() {
                   style={{
                     padding: "12px 14px",
                     borderRadius: "12px",
-                    backgroundColor: "#F2EEFA",
-                    color: "#4B3F72",
+                    backgroundColor: "#EBF0E6",
+                    color: "#3B4733",
                     fontSize: "13px",
                     fontWeight: 600,
                     marginBottom: "18px",
@@ -1110,7 +1067,7 @@ export default function App() {
                   padding: "14px",
                   fontSize: "15px",
                   fontWeight: 700,
-                  backgroundColor: "#5B4B8A",
+                  backgroundColor: "#4B5842",
                   color: "#FFFFFF",
                   border: "none",
                   borderRadius: "999px",
@@ -1123,24 +1080,24 @@ export default function App() {
 
             <div
               style={{
-                marginTop: "24px",
-                paddingTop: "20px",
-                borderTop: "1px solid #EFEBF7",
+                marginTop: "22px",
+                paddingTop: "18px",
+                borderTop: "1px solid #E9EDE4",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
                 fontSize: "13px",
-                color: "#756D91",
+                color: "#6C7766",
               }}
             >
-              <span>아직 새벽소리 회원이 아니신가요?</span>
+              <span>아직 회원이 아니신가요?</span>
               <button
                 type="button"
                 onClick={openApply}
                 style={{
                   background: "transparent",
                   border: "none",
-                  color: "#5B4B8A",
+                  color: "#4B5842",
                   fontWeight: 700,
                   cursor: "pointer",
                   padding: 0,
@@ -1156,64 +1113,66 @@ export default function App() {
       {/* ===================== 3. 메인 홈 화면 ===================== */}
       {page === "home" && (
         <>
-          {/* 오른쪽 고정 스크롤 내비게이션 */}
-          <aside
-            aria-label="섹션 이동"
-            style={{
-              position: "fixed",
-              right: "28px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              zIndex: 50,
-              display: "flex",
-              flexDirection: "column",
-              gap: "14px",
-              padding: "18px 16px",
-              backgroundColor: "rgba(255, 255, 255, 0.88)",
-              backdropFilter: "blur(10px)",
-              borderRadius: "20px",
-              border: "1px solid #E4DFF0",
-              boxShadow: "0 8px 24px rgba(75, 63, 114, 0.08)",
-            }}
-          >
-            {NAV_ITEMS.map((item) => {
-              const isActive = activeSection === item.id;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => scrollToSection(item.id)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-end",
-                    gap: "10px",
-                    background: "transparent",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: "4px 2px",
-                    fontSize: isActive ? "15px" : "13px",
-                    fontWeight: isActive ? 800 : 400,
-                    color: isActive ? "#4B3F72" : "#968EB0",
-                    transition: "all 0.25s ease",
-                  }}
-                >
-                  <span>{item.label}</span>
-                  <span
+          {/* 오른쪽 고정 스크롤 내비게이션 (데스크톱 전용) */}
+          {!isMobile && (
+            <aside
+              aria-label="섹션 이동"
+              style={{
+                position: "fixed",
+                right: "28px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                zIndex: 50,
+                display: "flex",
+                flexDirection: "column",
+                gap: "14px",
+                padding: "18px 16px",
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                backdropFilter: "blur(10px)",
+                borderRadius: "20px",
+                border: "1px solid #DCE2D6",
+                boxShadow: "0 8px 24px rgba(59, 71, 51, 0.08)",
+              }}
+            >
+              {NAV_ITEMS.map((item) => {
+                const isActive = activeSection === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => scrollToSection(item.id)}
                     style={{
-                      width: isActive ? "10px" : "6px",
-                      height: isActive ? "10px" : "6px",
-                      borderRadius: "999px",
-                      backgroundColor: isActive ? "#5B4B8A" : "#D3CCE6",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                      gap: "10px",
+                      background: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                      padding: "4px 2px",
+                      fontSize: isActive ? "15px" : "13px",
+                      fontWeight: isActive ? 800 : 400,
+                      color: isActive ? "#3B4733" : "#8A9683",
                       transition: "all 0.25s ease",
                     }}
-                  />
-                </button>
-              );
-            })}
-          </aside>
+                  >
+                    <span>{item.label}</span>
+                    <span
+                      style={{
+                        width: isActive ? "10px" : "6px",
+                        height: isActive ? "10px" : "6px",
+                        borderRadius: "999px",
+                        backgroundColor: isActive ? "#4B5842" : "#C6D0BE",
+                        transition: "all 0.25s ease",
+                      }}
+                    />
+                  </button>
+                );
+              })}
+            </aside>
+          )}
 
-          {/* 첫 화면 히어로 섹션 (기타·마이크 부상 + 3D 패럴랙스) */}
+          {/* 첫 화면 히어로 섹션 */}
           <div
             id="top"
             onMouseMove={handleHeroMouseMove}
@@ -1221,188 +1180,193 @@ export default function App() {
             style={{
               maxWidth: "1040px",
               margin: "0 auto",
-              padding: "72px 96px 56px 48px",
+              padding: isMobile ? "36px 20px 36px" : "72px 96px 56px 48px",
               position: "relative",
             }}
           >
-            {/* 은은한 라벤더 무대 조명 오라 */}
+            {/* 은은한 카키 무대 조명 오라 */}
             <div
               style={{
                 position: "absolute",
-                top: "20px",
-                right: "110px",
-                width: "340px",
-                height: "340px",
+                top: isMobile ? "10px" : "20px",
+                right: isMobile ? "-40px" : "110px",
+                width: isMobile ? "220px" : "340px",
+                height: isMobile ? "220px" : "340px",
                 borderRadius: "999px",
                 background:
-                  "radial-gradient(circle, rgba(167,148,242,0.34) 0%, rgba(246,244,250,0) 70%)",
+                  "radial-gradient(circle, rgba(132,153,115,0.28) 0%, rgba(244,245,240,0) 70%)",
                 pointerEvents: "none",
                 animation: "pulseGlow 5s ease-in-out infinite",
               }}
             />
 
-            {/* 오른쪽 상단: 아래에서 솟아오르는 기타 */}
-            <div
-              aria-hidden="true"
-              style={{
-                position: "absolute",
-                top: "44px",
-                right: "120px",
-                zIndex: 10,
-                pointerEvents: "none",
-                transform: `translate(${mouseOffset.x * -1.1}px, ${
-                  mouseOffset.y * -1.1
-                }px)`,
-                transition: "transform 0.2s ease-out",
-              }}
-            >
+            {/* 데스크톱: 오른쪽 상단 떠다니는 기타 배지 */}
+            {!isMobile && (
               <div
+                aria-hidden="true"
                 style={{
-                  animation:
-                    "gearLaunchRight 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both, floatGuitar 4.4s ease-in-out 1.25s infinite",
-                  background: "rgba(255, 255, 255, 0.92)",
-                  backdropFilter: "blur(8px)",
-                  border: "1px solid #DFD7F2",
-                  borderRadius: "28px",
-                  padding: "18px 22px",
-                  boxShadow: "0 18px 36px rgba(75, 63, 114, 0.14)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
+                  position: "absolute",
+                  top: "44px",
+                  right: "120px",
+                  zIndex: 10,
+                  pointerEvents: "none",
+                  transform: `translate(${mouseOffset.x * -1.1}px, ${
+                    mouseOffset.y * -1.1
+                  }px)`,
+                  transition: "transform 0.2s ease-out",
                 }}
               >
-                <svg width="56" height="56" viewBox="0 0 64 64" fill="none">
-                  <path
-                    d="M49 9L55 15M44 14L50 20M36 22L48 10L54 16L42 28"
-                    stroke="#5B4B8A"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M28 24C23 23 18 26 16 31C14 35 10 37 8 42C6 48 11 56 19 57C26 58 31 53 33 49C36 45 41 44 43 39C45 34 42 29 37 27L28 24Z"
-                    fill="#B9A9E8"
-                    stroke="#4B3F72"
-                    strokeWidth="3"
-                  />
-                  <circle cx="24" cy="41" r="4.5" fill="#4B3F72" />
-                  <path
-                    d="M16 48L21 53"
-                    stroke="#4B3F72"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div>
-                  <div
-                    style={{
-                      fontSize: "11px",
-                      fontWeight: 800,
-                      color: "#6D5B9E",
-                      letterSpacing: "0.06em",
-                    }}
-                  >
-                    LIVE SOUND
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: 800,
-                      color: "#221C38",
-                    }}
-                  >
-                    BAND & SESSION
+                <div
+                  style={{
+                    animation:
+                      "gearLaunchRight 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both, floatGuitar 4.4s ease-in-out 1.25s infinite",
+                    background: "rgba(255, 255, 255, 0.94)",
+                    backdropFilter: "blur(8px)",
+                    border: "1px solid #D3DBD0",
+                    borderRadius: "28px",
+                    padding: "18px 22px",
+                    boxShadow: "0 18px 36px rgba(59, 71, 51, 0.14)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                  }}
+                >
+                  <svg width="56" height="56" viewBox="0 0 64 64" fill="none">
+                    <path
+                      d="M49 9L55 15M44 14L50 20M36 22L48 10L54 16L42 28"
+                      stroke="#4B5842"
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M28 24C23 23 18 26 16 31C14 35 10 37 8 42C6 48 11 56 19 57C26 58 31 53 33 49C36 45 41 44 43 39C45 34 42 29 37 27L28 24Z"
+                      fill="#B7C6AA"
+                      stroke="#3B4733"
+                      strokeWidth="3"
+                    />
+                    <circle cx="24" cy="41" r="4.5" fill="#3B4733" />
+                    <path
+                      d="M16 48L21 53"
+                      stroke="#3B4733"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        fontWeight: 800,
+                        color: "#55644B",
+                        letterSpacing: "0.06em",
+                      }}
+                    >
+                      LIVE SOUND
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 800,
+                        color: "#1E241B",
+                      }}
+                    >
+                      BAND & SESSION
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
 
-            {/* 오른쪽 중단: 아래에서 솟아오르는 무대 마이크 + 이퀄라이저 */}
-            <div
-              aria-hidden="true"
-              style={{
-                position: "absolute",
-                top: "178px",
-                right: "225px",
-                zIndex: 12,
-                pointerEvents: "none",
-                transform: `translate(${mouseOffset.x * 1.2}px, ${
-                  mouseOffset.y * 1.2
-                }px)`,
-                transition: "transform 0.2s ease-out",
-              }}
-            >
+            {/* 데스크톱: 오른쪽 중단 떠다니는 무대 마이크 배지 */}
+            {!isMobile && (
               <div
+                aria-hidden="true"
                 style={{
-                  animation:
-                    "gearLaunchLeft 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both, floatMic 4.8s ease-in-out 1.45s infinite",
-                  background: "linear-gradient(135deg, #5B4B8A 0%, #7C69B5 100%)",
-                  color: "#FFFFFF",
-                  borderRadius: "24px",
-                  padding: "16px 20px",
-                  boxShadow: "0 18px 36px rgba(91, 75, 138, 0.25)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
+                  position: "absolute",
+                  top: "178px",
+                  right: "225px",
+                  zIndex: 12,
+                  pointerEvents: "none",
+                  transform: `translate(${mouseOffset.x * 1.2}px, ${
+                    mouseOffset.y * 1.2
+                  }px)`,
+                  transition: "transform 0.2s ease-out",
                 }}
               >
-                <svg width="42" height="42" viewBox="0 0 64 64" fill="none">
-                  <rect
-                    x="24"
-                    y="10"
-                    width="16"
-                    height="26"
-                    rx="8"
-                    fill="#EAE4FA"
-                    stroke="#FFFFFF"
-                    strokeWidth="2.5"
-                  />
-                  <path
-                    d="M17 28C17 36.2843 23.7157 43 32 43C40.2843 43 47 36.2843 47 28"
-                    stroke="#FFFFFF"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M32 43V54M23 54H41"
-                    stroke="#FFFFFF"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div>
-                  <div
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: 800,
-                      marginBottom: "6px",
-                    }}
-                  >
-                    VOCAL ON STAGE
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-end",
-                      gap: "4px",
-                      height: "14px",
-                    }}
-                  >
-                    {[0, 0.15, 0.3, 0.1, 0.25].map((delay, i) => (
-                      <span
-                        key={i}
-                        style={{
-                          width: "4px",
-                          height: "12px",
-                          borderRadius: "999px",
-                          backgroundColor: "#EAE4FA",
-                          animation: `soundWave 0.9s ease-in-out ${delay}s infinite`,
-                        }}
-                      />
-                    ))}
+                <div
+                  style={{
+                    animation:
+                      "gearLaunchLeft 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both, floatMic 4.8s ease-in-out 1.45s infinite",
+                    background:
+                      "linear-gradient(135deg, #4B5842 0%, #687B5B 100%)",
+                    color: "#FFFFFF",
+                    borderRadius: "24px",
+                    padding: "16px 20px",
+                    boxShadow: "0 18px 36px rgba(75, 88, 66, 0.25)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                  }}
+                >
+                  <svg width="42" height="42" viewBox="0 0 64 64" fill="none">
+                    <rect
+                      x="24"
+                      y="10"
+                      width="16"
+                      height="26"
+                      rx="8"
+                      fill="#E4EBDD"
+                      stroke="#FFFFFF"
+                      strokeWidth="2.5"
+                    />
+                    <path
+                      d="M17 28C17 36.2843 23.7157 43 32 43C40.2843 43 47 36.2843 47 28"
+                      stroke="#FFFFFF"
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M32 43V54M23 54H41"
+                      stroke="#FFFFFF"
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: 800,
+                        marginBottom: "6px",
+                      }}
+                    >
+                      VOCAL ON STAGE
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-end",
+                        gap: "4px",
+                        height: "14px",
+                      }}
+                    >
+                      {[0, 0.15, 0.3, 0.1, 0.25].map((delay, i) => (
+                        <span
+                          key={i}
+                          style={{
+                            width: "4px",
+                            height: "12px",
+                            borderRadius: "999px",
+                            backgroundColor: "#E4EBDD",
+                            animation: `soundWave 0.9s ease-in-out ${delay}s infinite`,
+                          }}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
 
             <span
               style={{
@@ -1411,10 +1375,11 @@ export default function App() {
                 fontSize: "11px",
                 fontWeight: 700,
                 letterSpacing: "0.08em",
-                backgroundColor: "#EAE4F7",
-                color: "#5B4B8A",
+                backgroundColor: "#E2E7DC",
+                color: "#4B5842",
                 borderRadius: "999px",
-                animation: "heroRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both",
+                animation:
+                  "heroRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both",
               }}
             >
               2027 NEW MEMBER RECRUITING
@@ -1422,15 +1387,17 @@ export default function App() {
 
             <h1
               style={{
-                fontSize: "52px",
-                lineHeight: 1.2,
+                fontSize: isMobile ? "34px" : "52px",
+                lineHeight: 1.22,
                 fontWeight: 900,
-                margin: "20px 0 20px",
+                margin: "18px 0 16px",
                 letterSpacing: "-0.02em",
-                color: "#221C38",
+                color: "#1E241B",
                 position: "relative",
                 zIndex: 5,
-                animation: "heroRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both",
+                wordBreak: "keep-all",
+                animation:
+                  "heroRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both",
               }}
             >
               새벽소리에 오신걸 환영합니다.
@@ -1438,21 +1405,101 @@ export default function App() {
 
             <p
               style={{
-                fontSize: "19px",
-                color: "#5E5678",
-                marginBottom: "32px",
-                animation: "heroRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both",
+                fontSize: isMobile ? "16px" : "19px",
+                color: "#586352",
+                marginBottom: "28px",
+                animation:
+                  "heroRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both",
               }}
             >
               좋아하는 마음이 활동이 되는 곳
             </p>
 
+            {/* 모바일 전용: 밴드/보컬 콤팩트 배지 바 */}
+            {isMobile && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  marginBottom: "24px",
+                  animation:
+                    "heroRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both",
+                }}
+              >
+                <div
+                  style={{
+                    flex: 1,
+                    backgroundColor: "#FFFFFF",
+                    border: "1px solid #D3DBD0",
+                    borderRadius: "16px",
+                    padding: "10px 14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <span style={{ fontSize: "18px" }}>🎸</span>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: 800,
+                        color: "#55644B",
+                      }}
+                    >
+                      LIVE SOUND
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: 800,
+                        color: "#1E241B",
+                      }}
+                    >
+                      BAND & SESSION
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    flex: 1,
+                    background:
+                      "linear-gradient(135deg, #4B5842 0%, #687B5B 100%)",
+                    color: "#FFFFFF",
+                    borderRadius: "16px",
+                    padding: "10px 14px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <span style={{ fontSize: "18px" }}>🎤</span>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: 800,
+                        color: "#E4EBDD",
+                      }}
+                    >
+                      ON STAGE
+                    </div>
+                    <div style={{ fontSize: "12px", fontWeight: 800 }}>
+                      VOCAL LIVE
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div
               style={{
                 display: "flex",
-                gap: "12px",
-                marginBottom: "48px",
-                animation: "heroRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both",
+                flexWrap: "wrap",
+                gap: "10px",
+                marginBottom: isMobile ? "32px" : "48px",
+                animation:
+                  "heroRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both",
               }}
             >
               <button
@@ -1460,10 +1507,11 @@ export default function App() {
                 onClick={openApply}
                 className="magic-btn"
                 style={{
-                  padding: "14px 24px",
-                  fontSize: "15px",
+                  flex: isMobile ? "1 1 auto" : "none",
+                  padding: isMobile ? "13px 20px" : "14px 24px",
+                  fontSize: isMobile ? "14px" : "15px",
                   fontWeight: 600,
-                  backgroundColor: "#5B4B8A",
+                  backgroundColor: "#4B5842",
                   color: "#FFFFFF",
                   border: "none",
                   borderRadius: "999px",
@@ -1477,12 +1525,13 @@ export default function App() {
                 onClick={openRule}
                 className="magic-btn"
                 style={{
-                  padding: "14px 24px",
-                  fontSize: "15px",
+                  flex: isMobile ? "1 1 auto" : "none",
+                  padding: isMobile ? "13px 20px" : "14px 24px",
+                  fontSize: isMobile ? "14px" : "15px",
                   fontWeight: 600,
                   backgroundColor: "#FFFFFF",
-                  color: "#4B3F72",
-                  border: "1px solid #D8D0EB",
+                  color: "#3B4733",
+                  border: "1px solid #CDD6C7",
                   borderRadius: "999px",
                   cursor: "pointer",
                 }}
@@ -1494,14 +1543,17 @@ export default function App() {
             <div
               style={{
                 width: "100%",
-                borderRadius: "24px",
+                borderRadius: isMobile ? "20px" : "24px",
                 overflow: "hidden",
-                border: "1px solid #E4DFF0",
-                boxShadow: "0 16px 38px rgba(75, 63, 114, 0.12)",
-                animation: "heroRise 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both",
-                transform: `perspective(1000px) rotateY(${
-                  mouseOffset.x * 0.12
-                }deg) rotateX(${mouseOffset.y * -0.12}deg)`,
+                border: "1px solid #DCE2D6",
+                boxShadow: "0 16px 38px rgba(59, 71, 51, 0.12)",
+                animation:
+                  "heroRise 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both",
+                transform: isMobile
+                  ? "none"
+                  : `perspective(1000px) rotateY(${
+                      mouseOffset.x * 0.12
+                    }deg) rotateX(${mouseOffset.y * -0.12}deg)`,
                 transition: "transform 0.25s ease-out",
               }}
             >
@@ -1510,7 +1562,7 @@ export default function App() {
                 alt="새벽소리 대표 사진"
                 style={{
                   width: "100%",
-                  height: "420px",
+                  height: isMobile ? "240px" : "420px",
                   objectFit: "cover",
                   display: "block",
                 }}
@@ -1523,10 +1575,10 @@ export default function App() {
             style={{
               maxWidth: "1040px",
               margin: "0 auto",
-              padding: "24px 96px 80px 48px",
+              padding: isMobile ? "12px 20px 64px" : "24px 96px 80px 48px",
               display: "flex",
               flexDirection: "column",
-              gap: "72px",
+              gap: isMobile ? "36px" : "72px",
             }}
           >
             {/* 1. 소개 섹션 */}
@@ -1534,11 +1586,11 @@ export default function App() {
               <div
                 className="magic-card"
                 style={{
-                  background: "linear-gradient(135deg, #4B3F72 0%, #6D5B9E 100%)",
+                  background: "linear-gradient(135deg, #3B4733 0%, #5A6B4F 100%)",
                   color: "#FFFFFF",
-                  borderRadius: "28px",
-                  padding: "56px 48px",
-                  boxShadow: "0 16px 36px rgba(75, 63, 114, 0.18)",
+                  borderRadius: isMobile ? "22px" : "28px",
+                  padding: isMobile ? "32px 24px" : "56px 48px",
+                  boxShadow: "0 16px 36px rgba(59, 71, 51, 0.18)",
                 }}
               >
                 <p
@@ -1546,19 +1598,20 @@ export default function App() {
                     fontSize: "12px",
                     fontWeight: 700,
                     letterSpacing: "0.1em",
-                    color: "#DCD4F5",
-                    marginBottom: "14px",
+                    color: "#D5DEC9",
+                    marginBottom: "12px",
                   }}
                 >
                   ABOUT US
                 </p>
                 <h2
                   style={{
-                    fontSize: "38px",
+                    fontSize: isMobile ? "26px" : "38px",
                     fontWeight: 800,
-                    lineHeight: 1.3,
-                    marginBottom: "16px",
+                    lineHeight: 1.32,
+                    marginBottom: "14px",
                     color: "#FFFFFF",
+                    wordBreak: "keep-all",
                   }}
                 >
                   대찬혁이 지배한다.
@@ -1567,41 +1620,121 @@ export default function App() {
                 </h2>
                 <p
                   style={{
-                    fontSize: "16px",
-                    color: "#EAE4FA",
-                    marginBottom: "40px",
+                    fontSize: isMobile ? "14px" : "16px",
+                    color: "#E4EBDD",
+                    marginBottom: "10px",
                     lineHeight: 1.6,
                   }}
                 >
-                  IT융합대학의 매력덩어리들이 모인 동아리 입니다
+                  IT융합대학의 음악을 사랑하는 사람들이 모인 동아리 입니다
+                </p>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "#D5DEC9",
+                    marginBottom: isMobile ? "26px" : "36px",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  동방 위치 · IT융합대학 4층 4208호
                 </p>
 
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
-                    gap: "24px",
+                    gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+                    gap: isMobile ? "18px" : "24px",
                     borderTop: "1px solid rgba(255, 255, 255, 0.2)",
-                    paddingTop: "28px",
+                    paddingTop: "24px",
                   }}
                 >
                   <div>
-                    <div style={{ fontSize: "32px", fontWeight: 900 }}>12+</div>
-                    <div style={{ fontSize: "13px", color: "#DCD4F5", marginTop: "4px" }}>
+                    <div
+                      style={{
+                        fontSize: isMobile ? "26px" : "32px",
+                        fontWeight: 900,
+                      }}
+                    >
+                      12+
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "13px",
+                        color: "#D5DEC9",
+                        marginTop: "4px",
+                      }}
+                    >
                       이번 학기 프로젝트
                     </div>
                   </div>
                   <div>
-                    <div style={{ fontSize: "32px", fontWeight: 900 }}>45</div>
-                    <div style={{ fontSize: "13px", color: "#DCD4F5", marginTop: "4px" }}>
+                    <div
+                      style={{
+                        fontSize: isMobile ? "26px" : "32px",
+                        fontWeight: 900,
+                      }}
+                    >
+                      45
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "13px",
+                        color: "#D5DEC9",
+                        marginTop: "4px",
+                      }}
+                    >
                       함께하는 멤버
                     </div>
                   </div>
                   <div>
-                    <div style={{ fontSize: "32px", fontWeight: 900 }}>매주 목요일</div>
-                    <div style={{ fontSize: "13px", color: "#DCD4F5", marginTop: "4px" }}>
+                    <div
+                      style={{
+                        fontSize: isMobile ? "26px" : "32px",
+                        fontWeight: 900,
+                      }}
+                    >
+                      매주 목요일
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "13px",
+                        color: "#D5DEC9",
+                        marginTop: "4px",
+                      }}
+                    >
                       동아리 정기모임
                     </div>
+                  </div>
+                </div>
+
+                {/* 동아리 문의 안내 (작은 글씨) */}
+                <div
+                  style={{
+                    marginTop: "28px",
+                    paddingTop: "18px",
+                    borderTop: "1px solid rgba(255, 255, 255, 0.14)",
+                    fontSize: "12px",
+                    color: "#D5DEC9",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: isMobile ? "6px 14px" : "6px 20px",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    <span>
+                      <strong style={{ color: "#FFFFFF" }}>문의</strong> · 회장
+                      정찬혁 010-3328-7002
+                    </span>
+                    <span>부회장 오창효 010-7200-5074</span>
+                    <span>총무 김나연 010-7610-5351</span>
+                  </div>
+                  <div style={{ fontSize: "11.5px", opacity: 0.9 }}>
+                    궁금한 점이나 가입 문의는 언제든 편하게 연락 주세요!
                   </div>
                 </div>
               </div>
@@ -1613,17 +1746,19 @@ export default function App() {
                 className="magic-card"
                 style={{
                   backgroundColor: "#FFFFFF",
-                  borderRadius: "28px",
-                  padding: "48px",
-                  border: "1px solid #E6E1F2",
+                  borderRadius: isMobile ? "22px" : "28px",
+                  padding: isMobile ? "28px 22px" : "48px",
+                  border: "1px solid #DCE2D6",
                 }}
               >
                 <div
                   style={{
                     display: "flex",
+                    flexDirection: isMobile ? "column" : "row",
                     justifyContent: "space-between",
-                    alignItems: "flex-end",
-                    marginBottom: "32px",
+                    alignItems: isMobile ? "flex-start" : "flex-end",
+                    gap: "6px",
+                    marginBottom: "24px",
                   }}
                 >
                   <div>
@@ -1632,23 +1767,23 @@ export default function App() {
                         fontSize: "12px",
                         fontWeight: 700,
                         letterSpacing: "0.08em",
-                        color: "#6D5B9E",
+                        color: "#55644B",
                       }}
                     >
                       NOTICE
                     </span>
                     <h2
                       style={{
-                        fontSize: "32px",
+                        fontSize: isMobile ? "24px" : "32px",
                         fontWeight: 800,
                         marginTop: "6px",
-                        color: "#221C38",
+                        color: "#1E241B",
                       }}
                     >
                       요즘 새벽소리에서는
                     </h2>
                   </div>
-                  <span style={{ fontSize: "13px", color: "#8A81A6" }}>
+                  <span style={{ fontSize: "12px", color: "#808C79" }}>
                     모든 공지는 회원 공간에서 확인
                   </span>
                 </div>
@@ -1663,7 +1798,7 @@ export default function App() {
                   {
                     num: "02",
                     title: "18번째 정기공연 찬란",
-                    desc: "새벽소리 19번째 정기공연 찬란을 보헤미안 극장에서 잘 마쳤습니다",
+                    desc: "새벽소리 18번째 정기공연 찬란을 보헤미안 극장에서 잘 마쳤습니다",
                     date: "11월 7일 (토)",
                   },
                   {
@@ -1677,18 +1812,19 @@ export default function App() {
                     key={item.num}
                     style={{
                       display: "flex",
+                      flexDirection: isMobile ? "column" : "row",
                       justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: "22px 0",
-                      borderTop: "1px solid #EFEBF7",
-                      borderBottom: idx === 2 ? "1px solid #EFEBF7" : "none",
-                      gap: "20px",
+                      alignItems: isMobile ? "flex-start" : "center",
+                      padding: "20px 0",
+                      borderTop: "1px solid #E9EDE4",
+                      borderBottom: idx === 2 ? "1px solid #E9EDE4" : "none",
+                      gap: isMobile ? "10px" : "20px",
                     }}
                   >
                     <div
                       style={{
                         display: "flex",
-                        gap: "20px",
+                        gap: isMobile ? "12px" : "20px",
                         alignItems: "flex-start",
                         flex: 1,
                         textAlign: "left",
@@ -1698,8 +1834,8 @@ export default function App() {
                         style={{
                           fontSize: "14px",
                           fontWeight: 800,
-                          color: "#6D5B9E",
-                          paddingTop: "3px",
+                          color: "#55644B",
+                          paddingTop: "2px",
                           flexShrink: 0,
                         }}
                       >
@@ -1708,9 +1844,9 @@ export default function App() {
                       <div style={{ width: "100%", textAlign: "left" }}>
                         <div
                           style={{
-                            fontSize: "18px",
+                            fontSize: isMobile ? "16px" : "18px",
                             fontWeight: 700,
-                            color: "#221C38",
+                            color: "#1E241B",
                             marginBottom: "6px",
                             textAlign: "left",
                           }}
@@ -1719,10 +1855,11 @@ export default function App() {
                         </div>
                         <div
                           style={{
-                            fontSize: "14px",
-                            color: "#686082",
+                            fontSize: isMobile ? "13px" : "14px",
+                            color: "#606B5A",
                             lineHeight: 1.5,
                             textAlign: "left",
+                            wordBreak: "keep-all",
                           }}
                         >
                           {item.desc}
@@ -1731,9 +1868,10 @@ export default function App() {
                     </div>
                     <span
                       style={{
-                        fontSize: "13px",
-                        color: "#8A81A6",
+                        fontSize: "12px",
+                        color: "#808C79",
                         whiteSpace: "nowrap",
+                        paddingLeft: isMobile ? "28px" : "0",
                         flexShrink: 0,
                       }}
                     >
@@ -1748,10 +1886,10 @@ export default function App() {
             <RevealSection id="schedule">
               <div
                 style={{
-                  backgroundColor: "#EFEBF8",
-                  borderRadius: "28px",
-                  padding: "48px",
-                  border: "1px solid #E0D8F0",
+                  backgroundColor: "#E8ECE2",
+                  borderRadius: isMobile ? "22px" : "28px",
+                  padding: isMobile ? "28px 22px" : "48px",
+                  border: "1px solid #D3DBD0",
                 }}
               >
                 <span
@@ -1759,17 +1897,17 @@ export default function App() {
                     fontSize: "12px",
                     fontWeight: 700,
                     letterSpacing: "0.08em",
-                    color: "#6D5B9E",
+                    color: "#55644B",
                   }}
                 >
                   SCHEDULE
                 </span>
                 <h2
                   style={{
-                    fontSize: "32px",
+                    fontSize: isMobile ? "24px" : "32px",
                     fontWeight: 800,
-                    margin: "6px 0 28px",
-                    color: "#221C38",
+                    margin: "6px 0 22px",
+                    color: "#1E241B",
                   }}
                 >
                   주요일정
@@ -1778,8 +1916,8 @@ export default function App() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
-                    gap: "18px",
+                    gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+                    gap: "14px",
                   }}
                 >
                   {[
@@ -1804,9 +1942,9 @@ export default function App() {
                       className="magic-card"
                       style={{
                         backgroundColor: "#FFFFFF",
-                        borderRadius: "20px",
-                        padding: "24px",
-                        border: "1px solid #E4DFF0",
+                        borderRadius: "18px",
+                        padding: "20px",
+                        border: "1px solid #DCE2D6",
                       }}
                     >
                       <span
@@ -1814,26 +1952,32 @@ export default function App() {
                           display: "inline-block",
                           fontSize: "12px",
                           fontWeight: 700,
-                          color: "#5B4B8A",
-                          backgroundColor: "#F2EEFA",
+                          color: "#4B5842",
+                          backgroundColor: "#EBF0E6",
                           padding: "4px 10px",
                           borderRadius: "999px",
-                          marginBottom: "12px",
+                          marginBottom: "10px",
                         }}
                       >
                         {sched.date}
                       </span>
                       <div
                         style={{
-                          fontSize: "17px",
+                          fontSize: "16px",
                           fontWeight: 700,
-                          color: "#221C38",
-                          marginBottom: "8px",
+                          color: "#1E241B",
+                          marginBottom: "6px",
                         }}
                       >
                         {sched.title}
                       </div>
-                      <p style={{ fontSize: "13px", color: "#756D91", margin: 0 }}>
+                      <p
+                        style={{
+                          fontSize: "13px",
+                          color: "#6C7766",
+                          margin: 0,
+                        }}
+                      >
                         {sched.place}
                       </p>
                     </div>
@@ -1848,17 +1992,19 @@ export default function App() {
                 className="magic-card"
                 style={{
                   backgroundColor: "#FFFFFF",
-                  borderRadius: "28px",
-                  padding: "48px",
-                  border: "1px solid #E6E1F2",
+                  borderRadius: isMobile ? "22px" : "28px",
+                  padding: isMobile ? "28px 22px" : "48px",
+                  border: "1px solid #DCE2D6",
                 }}
               >
                 <div
                   style={{
                     display: "flex",
+                    flexDirection: isMobile ? "column" : "row",
                     justifyContent: "space-between",
-                    alignItems: "flex-end",
-                    marginBottom: "28px",
+                    alignItems: isMobile ? "flex-start" : "flex-end",
+                    gap: "10px",
+                    marginBottom: "22px",
                   }}
                 >
                   <div>
@@ -1867,17 +2013,17 @@ export default function App() {
                         fontSize: "12px",
                         fontWeight: 700,
                         letterSpacing: "0.08em",
-                        color: "#6D5B9E",
+                        color: "#55644B",
                       }}
                     >
                       OUR MOMENTS
                     </span>
                     <h2
                       style={{
-                        fontSize: "32px",
+                        fontSize: isMobile ? "24px" : "32px",
                         fontWeight: 800,
                         marginTop: "6px",
-                        color: "#221C38",
+                        color: "#1E241B",
                       }}
                     >
                       우리가 함께한 순간
@@ -1893,7 +2039,7 @@ export default function App() {
                       gap: "6px",
                       fontSize: "13px",
                       fontWeight: 700,
-                      color: "#5B4B8A",
+                      color: "#4B5842",
                       textDecoration: "none",
                     }}
                   >
@@ -1905,17 +2051,17 @@ export default function App() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "2fr 1fr",
+                    gridTemplateColumns: isMobile ? "1fr" : "2fr 1fr",
                     gap: "16px",
                   }}
                 >
-                  <div style={{ borderRadius: "20px", overflow: "hidden" }}>
+                  <div style={{ borderRadius: "18px", overflow: "hidden" }}>
                     <img
                       src={clubPhoto}
                       alt="함께한 순간 1"
                       style={{
                         width: "100%",
-                        height: "340px",
+                        height: isMobile ? "220px" : "340px",
                         objectFit: "cover",
                         display: "block",
                       }}
@@ -1926,14 +2072,15 @@ export default function App() {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                      borderRadius: "20px",
+                      borderRadius: "18px",
                       background:
-                        "linear-gradient(160deg, #DCD4F5 0%, #B8A9E3 100%)",
+                        "linear-gradient(160deg, #D3DEC8 0%, #A9BA9B 100%)",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
-                      padding: "28px",
-                      color: "#2B2347",
+                      gap: "20px",
+                      padding: "24px",
+                      color: "#1E241B",
                       textDecoration: "none",
                     }}
                   >
@@ -1943,8 +2090,8 @@ export default function App() {
                         alignItems: "center",
                         gap: "8px",
                         alignSelf: "flex-start",
-                        backgroundColor: "rgba(255, 255, 255, 0.7)",
-                        padding: "8px 12px",
+                        backgroundColor: "rgba(255, 255, 255, 0.75)",
+                        padding: "7px 12px",
                         borderRadius: "999px",
                         fontSize: "12px",
                         fontWeight: 800,
@@ -1957,7 +2104,7 @@ export default function App() {
                     <div>
                       <div
                         style={{
-                          fontSize: "13px",
+                          fontSize: "12px",
                           fontWeight: 700,
                           marginBottom: "6px",
                         }}
@@ -1966,10 +2113,10 @@ export default function App() {
                       </div>
                       <div
                         style={{
-                          fontSize: "18px",
+                          fontSize: "17px",
                           fontWeight: 800,
                           lineHeight: 1.4,
-                          marginBottom: "12px",
+                          marginBottom: "10px",
                         }}
                       >
                         연습실의 밤부터
@@ -1980,7 +2127,7 @@ export default function App() {
                         style={{
                           fontSize: "13px",
                           fontWeight: 700,
-                          color: "#4B3F72",
+                          color: "#3B4733",
                         }}
                       >
                         공식 인스타그램 바로가기 →
@@ -1997,17 +2144,20 @@ export default function App() {
             style={{
               maxWidth: "1040px",
               margin: "0 auto",
-              padding: "28px 96px 56px 48px",
-              borderTop: "1px solid #E4DFF0",
+              padding: isMobile ? "24px 20px 44px" : "28px 96px 56px 48px",
+              borderTop: "1px solid #DCE2D6",
               display: "flex",
+              flexDirection: isMobile ? "column" : "row",
               justifyContent: "space-between",
-              alignItems: "center",
+              alignItems: isMobile ? "flex-start" : "center",
+              gap: "12px",
               fontSize: "13px",
-              color: "#756D91",
+              color: "#6C7766",
             }}
           >
             <div>
-              <strong style={{ color: "#2B2347" }}>새벽소리.</strong> — IT융합대학 동아리
+              <strong style={{ color: "#263020" }}>새벽소리.</strong> — IT융합대학
+              동아리
             </div>
             <a
               href={INSTAGRAM_URL}
@@ -2017,7 +2167,7 @@ export default function App() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "6px",
-                color: "#5B4B8A",
+                color: "#4B5842",
                 fontWeight: 700,
                 textDecoration: "none",
               }}
