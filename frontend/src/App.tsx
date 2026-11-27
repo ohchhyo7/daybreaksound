@@ -7,11 +7,16 @@ import {
   type ReactNode,
 } from "react";
 import clubPhoto from "./assets/db-cp.jpg";
+import clubLogoNk from "./assets/db-logonk.png";
 
 type SectionId = "intro" | "news" | "schedule" | "gallery";
 type PageView = "home" | "rule" | "apply" | "login";
 
 const INSTAGRAM_URL = "https://www.instagram.com/daybreak_sound/";
+const YOUTUBE_URL = "https://www.youtube.com/@Chanhyeok_ss";
+
+const UNIFIED_FONT =
+  "'SUIT Variable', 'SUIT', -apple-system, BlinkMacSystemFont, sans-serif";
 
 const NAV_ITEMS: { id: SectionId; label: string }[] = [
   { id: "intro", label: "소개" },
@@ -85,6 +90,20 @@ function InstagramIcon({ size = 16 }: { size?: number }) {
   );
 }
 
+function YoutubeIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  );
+}
+
 // 스크롤 시 입체적으로 떠오르는 섹션 래퍼
 function RevealSection({
   id,
@@ -135,20 +154,21 @@ const inputStyle = {
   boxSizing: "border-box" as const,
   padding: "14px 16px",
   fontSize: "15px",
-  color: "#1E241B",
-  backgroundColor: "#F9FAF7",
-  border: "1px solid #D5DDD0",
+  color: "#1B2E68",
+  backgroundColor: "#F3F7FF",
+  border: "1px solid #C4D2F2",
   borderRadius: "14px",
   outline: "none",
-  fontFamily: "inherit",
+  fontFamily: UNIFIED_FONT,
 };
 
 const labelStyle = {
   display: "block",
   fontSize: "13px",
   fontWeight: 700,
-  color: "#2B3525",
+  color: "#23397A",
   marginBottom: "8px",
+  fontFamily: UNIFIED_FONT,
 };
 
 export default function App() {
@@ -275,16 +295,26 @@ export default function App() {
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "#F4F5F0",
-        color: "#1E241B",
-        fontFamily: "'Noto Sans KR', sans-serif",
+        background:
+          "linear-gradient(180deg, #E3ECFC 0%, #D6E2FA 48%, #DEE2FB 100%)",
+        color: "#1B2E68",
+        fontFamily: UNIFIED_FONT,
         textAlign: "left",
         overflowX: "hidden",
         position: "relative",
       }}
     >
-      {/* 애니메이션 키프레임 정의 */}
+      {/* 전체 요소 글씨체 통일 및 애니메이션 키프레임 정의 */}
       <style>{`
+        *, *::before, *::after {
+          font-family: ${UNIFIED_FONT};
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+          color: #6B80B8;
+        }
+
         @keyframes heroRise {
           0% {
             opacity: 0;
@@ -347,11 +377,11 @@ export default function App() {
         @keyframes pulseGlow {
           0%, 100% {
             transform: scale(1);
-            opacity: 0.55;
+            opacity: 0.65;
           }
           50% {
             transform: scale(1.14);
-            opacity: 0.85;
+            opacity: 0.92;
           }
         }
 
@@ -369,15 +399,16 @@ export default function App() {
         }
         .magic-card:hover {
           transform: translateY(-6px) scale(1.01);
-          box-shadow: 0 20px 40px rgba(59, 71, 51, 0.13);
+          box-shadow: 0 20px 40px rgba(27, 46, 102, 0.16);
         }
 
         .magic-btn {
-          transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background-color 0.25s ease;
+          transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, filter 0.25s ease;
         }
         .magic-btn:hover {
           transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 10px 22px rgba(75, 88, 66, 0.24);
+          box-shadow: 0 10px 22px rgba(34, 62, 145, 0.28);
+          filter: brightness(1.04);
         }
       `}</style>
 
@@ -390,7 +421,8 @@ export default function App() {
             left: 0,
             height: "4px",
             width: `${scrollProgress}%`,
-            background: "linear-gradient(90deg, #7E916F 0%, #4B5842 100%)",
+            background:
+              "linear-gradient(90deg, #2563EB 0%, #3B49C8 55%, #5E3DB8 100%)",
             zIndex: 60,
             transition: "width 0.1s linear",
           }}
@@ -408,26 +440,35 @@ export default function App() {
           alignItems: "center",
           justifyContent: "space-between",
           gap: "10px",
-          padding: isMobile ? "14px 18px" : "18px 48px",
-          backgroundColor: "rgba(244, 245, 240, 0.9)",
-          backdropFilter: "blur(12px)",
-          borderBottom: "1px solid #DCE2D6",
+          padding: isMobile ? "10px 16px" : "12px 48px",
+          backgroundColor: "rgba(227, 236, 252, 0.88)",
+          backdropFilter: "blur(14px)",
+          borderBottom: "1px solid #C4D2F2",
         }}
       >
         <button
           type="button"
           onClick={goHome}
+          aria-label="새벽소리 홈"
           style={{
-            fontWeight: 900,
-            fontSize: isMobile ? "19px" : "21px",
-            color: "#263020",
+            display: "inline-flex",
+            alignItems: "center",
             background: "transparent",
             border: "none",
             cursor: "pointer",
             padding: 0,
           }}
         >
-          새벽소리.
+          <img
+            src={clubLogoNk}
+            alt="새벽소리 로고"
+            style={{
+              height: isMobile ? "34px" : "42px",
+              width: "auto",
+              objectFit: "contain",
+              display: "block",
+            }}
+          />
         </button>
 
         <div
@@ -446,8 +487,11 @@ export default function App() {
               padding: isMobile ? "7px 11px" : "8px 14px",
               fontSize: isMobile ? "12px" : "13px",
               fontWeight: 700,
-              color: page === "rule" ? "#FFFFFF" : "#4B5842",
-              backgroundColor: page === "rule" ? "#4B5842" : "#E2E7DC",
+              color: page === "rule" ? "#FFFFFF" : "#22387A",
+              background:
+                page === "rule"
+                  ? "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)"
+                  : "#D4E0FA",
               border: "none",
               borderRadius: "999px",
               cursor: "pointer",
@@ -469,15 +513,39 @@ export default function App() {
               padding: isMobile ? "7px 10px" : "8px 14px",
               fontSize: isMobile ? "12px" : "13px",
               fontWeight: 600,
-              color: "#4B5842",
-              backgroundColor: "#FFFFFF",
-              border: "1px solid #D3DBD0",
+              color: "#22387A",
+              backgroundColor: "rgba(255, 255, 255, 0.92)",
+              border: "1px solid #BDD0F5",
               borderRadius: "999px",
               textDecoration: "none",
             }}
           >
             <InstagramIcon size={15} />
             {!isMobile && <span>Instagram</span>}
+          </a>
+
+          <a
+            href={YOUTUBE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="새벽소리 유튜브"
+            className="magic-btn"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "5px",
+              padding: isMobile ? "7px 10px" : "8px 14px",
+              fontSize: isMobile ? "12px" : "13px",
+              fontWeight: 600,
+              color: "#22387A",
+              backgroundColor: "rgba(255, 255, 255, 0.92)",
+              border: "1px solid #BDD0F5",
+              borderRadius: "999px",
+              textDecoration: "none",
+            }}
+          >
+            <YoutubeIcon size={15} />
+            {!isMobile && <span>YouTube</span>}
           </a>
 
           <button
@@ -487,9 +555,9 @@ export default function App() {
             style={{
               padding: isMobile ? "7px 10px" : "8px 14px",
               fontSize: isMobile ? "12px" : "13px",
-              fontWeight: page === "login" ? 700 : 500,
-              color: page === "login" ? "#263020" : "#46523E",
-              background: page === "login" ? "#E2E7DC" : "transparent",
+              fontWeight: page === "login" ? 700 : 600,
+              color: page === "login" ? "#1B2E68" : "#2D448A",
+              background: page === "login" ? "#D4E0FA" : "transparent",
               border: "none",
               borderRadius: "999px",
               cursor: "pointer",
@@ -506,7 +574,10 @@ export default function App() {
               padding: isMobile ? "7px 13px" : "9px 18px",
               fontSize: isMobile ? "12px" : "13px",
               fontWeight: 600,
-              backgroundColor: page === "apply" ? "#343F2E" : "#4B5842",
+              background:
+                page === "apply"
+                  ? "linear-gradient(135deg, #162B6E 0%, #3B287E 100%)"
+                  : "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
               color: "#FFFFFF",
               border: "none",
               borderRadius: "999px",
@@ -534,7 +605,7 @@ export default function App() {
             style={{
               background: "transparent",
               border: "none",
-              color: "#55644B",
+              color: "#2C4696",
               fontSize: "13px",
               fontWeight: 700,
               cursor: "pointer",
@@ -552,8 +623,8 @@ export default function App() {
               fontSize: "11px",
               fontWeight: 800,
               letterSpacing: "0.08em",
-              backgroundColor: "#E2E7DC",
-              color: "#4B5842",
+              backgroundColor: "#D4E0FA",
+              color: "#22387A",
               borderRadius: "999px",
               marginBottom: "12px",
             }}
@@ -563,10 +634,10 @@ export default function App() {
 
           <h1
             style={{
-              fontSize: isMobile ? "28px" : "44px",
-              fontWeight: 900,
+              fontSize: isMobile ? "30px" : "44px",
+              fontWeight: 800,
               lineHeight: 1.25,
-              color: "#1E241B",
+              color: "#1B2E68",
               margin: "0 0 12px",
               letterSpacing: "-0.02em",
             }}
@@ -577,7 +648,7 @@ export default function App() {
           <p
             style={{
               fontSize: isMobile ? "14px" : "15px",
-              color: "#586352",
+              color: "#3F5494",
               margin: "0 0 32px",
               lineHeight: 1.6,
             }}
@@ -597,15 +668,15 @@ export default function App() {
                 key={rule.num}
                 className="magic-card"
                 style={{
-                  backgroundColor: "#FFFFFF",
+                  backgroundColor: "rgba(255, 255, 255, 0.94)",
                   borderRadius: "20px",
                   padding: isMobile ? "18px 20px" : "24px 28px",
                   border: rule.important
-                    ? "2px solid #5A6B4F"
-                    : "1px solid #DCE2D6",
+                    ? "2px solid #4C389E"
+                    : "1px solid #C4D2F2",
                   boxShadow: rule.important
-                    ? "0 12px 28px rgba(75, 88, 66, 0.14)"
-                    : "0 6px 18px rgba(59, 71, 51, 0.04)",
+                    ? "0 12px 28px rgba(76, 56, 158, 0.16)"
+                    : "0 6px 18px rgba(27, 46, 102, 0.05)",
                   animation: `heroRise 0.6s cubic-bezier(0.22, 1, 0.36, 1) ${
                     idx * 0.06
                   }s both`,
@@ -627,7 +698,8 @@ export default function App() {
                       width: "28px",
                       height: "28px",
                       borderRadius: "999px",
-                      backgroundColor: "#4B5842",
+                      background:
+                        "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
                       color: "#FFFFFF",
                       fontSize: "12px",
                       fontWeight: 800,
@@ -639,9 +711,9 @@ export default function App() {
 
                   <h2
                     style={{
-                      fontSize: isMobile ? "16px" : "19px",
+                      fontSize: isMobile ? "17px" : "20px",
                       fontWeight: 800,
-                      color: "#1E241B",
+                      color: "#1B2E68",
                       margin: 0,
                       lineHeight: 1.35,
                     }}
@@ -673,7 +745,7 @@ export default function App() {
                     paddingLeft: "40px",
                     fontSize: isMobile ? "13px" : "14px",
                     fontWeight: 600,
-                    color: "#55644B",
+                    color: "#2C4696",
                     lineHeight: 1.5,
                   }}
                 >
@@ -701,7 +773,7 @@ export default function App() {
             style={{
               background: "transparent",
               border: "none",
-              color: "#55644B",
+              color: "#2C4696",
               fontSize: "13px",
               fontWeight: 700,
               cursor: "pointer",
@@ -717,7 +789,7 @@ export default function App() {
               fontSize: "12px",
               fontWeight: 800,
               letterSpacing: "0.08em",
-              color: "#55644B",
+              color: "#2C4696",
               marginBottom: "10px",
             }}
           >
@@ -727,9 +799,9 @@ export default function App() {
           <h1
             style={{
               fontSize: isMobile ? "32px" : "44px",
-              fontWeight: 900,
-              lineHeight: 1.22,
-              color: "#1E241B",
+              fontWeight: 800,
+              lineHeight: 1.24,
+              color: "#1B2E68",
               margin: "0 0 14px",
               letterSpacing: "-0.02em",
             }}
@@ -742,7 +814,7 @@ export default function App() {
           <p
             style={{
               fontSize: isMobile ? "14px" : "15px",
-              color: "#586352",
+              color: "#3F5494",
               margin: "0 0 28px",
               lineHeight: 1.6,
             }}
@@ -752,11 +824,11 @@ export default function App() {
 
           <div
             style={{
-              backgroundColor: "#FFFFFF",
+              backgroundColor: "rgba(255, 255, 255, 0.94)",
               borderRadius: isMobile ? "22px" : "28px",
               padding: isMobile ? "24px 20px" : "40px",
-              border: "1px solid #DCE2D6",
-              boxShadow: "0 12px 32px rgba(59, 71, 51, 0.06)",
+              border: "1px solid #C4D2F2",
+              boxShadow: "0 12px 32px rgba(27, 46, 102, 0.08)",
             }}
           >
             {applySubmitted ? (
@@ -766,8 +838,8 @@ export default function App() {
                     display: "inline-block",
                     padding: "6px 14px",
                     borderRadius: "999px",
-                    backgroundColor: "#E2E7DC",
-                    color: "#4B5842",
+                    backgroundColor: "#D4E0FA",
+                    color: "#22387A",
                     fontSize: "12px",
                     fontWeight: 700,
                     marginBottom: "16px",
@@ -779,7 +851,7 @@ export default function App() {
                   style={{
                     fontSize: isMobile ? "22px" : "26px",
                     fontWeight: 800,
-                    color: "#1E241B",
+                    color: "#1B2E68",
                     marginBottom: "10px",
                   }}
                 >
@@ -788,7 +860,7 @@ export default function App() {
                 <p
                   style={{
                     fontSize: "14px",
-                    color: "#606B5A",
+                    color: "#3F5494",
                     marginBottom: "28px",
                     lineHeight: 1.6,
                   }}
@@ -803,7 +875,8 @@ export default function App() {
                     padding: "13px 26px",
                     fontSize: "14px",
                     fontWeight: 700,
-                    backgroundColor: "#4B5842",
+                    background:
+                      "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
                     color: "#FFFFFF",
                     border: "none",
                     borderRadius: "999px",
@@ -932,7 +1005,8 @@ export default function App() {
                       padding: "14px 28px",
                       fontSize: "15px",
                       fontWeight: 700,
-                      backgroundColor: "#4B5842",
+                      background:
+                        "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
                       color: "#FFFFFF",
                       border: "none",
                       borderRadius: "999px",
@@ -964,7 +1038,7 @@ export default function App() {
             style={{
               background: "transparent",
               border: "none",
-              color: "#55644B",
+              color: "#2C4696",
               fontSize: "13px",
               fontWeight: 700,
               cursor: "pointer",
@@ -977,11 +1051,11 @@ export default function App() {
 
           <div
             style={{
-              backgroundColor: "#FFFFFF",
+              backgroundColor: "rgba(255, 255, 255, 0.94)",
               borderRadius: isMobile ? "22px" : "28px",
               padding: isMobile ? "28px 22px" : "40px 36px",
-              border: "1px solid #DCE2D6",
-              boxShadow: "0 12px 32px rgba(59, 71, 51, 0.08)",
+              border: "1px solid #C4D2F2",
+              boxShadow: "0 12px 32px rgba(27, 46, 102, 0.1)",
             }}
           >
             <div
@@ -989,7 +1063,7 @@ export default function App() {
                 fontSize: "12px",
                 fontWeight: 800,
                 letterSpacing: "0.08em",
-                color: "#55644B",
+                color: "#2C4696",
                 marginBottom: "8px",
               }}
             >
@@ -998,8 +1072,8 @@ export default function App() {
             <h1
               style={{
                 fontSize: isMobile ? "24px" : "28px",
-                fontWeight: 900,
-                color: "#1E241B",
+                fontWeight: 800,
+                color: "#1B2E68",
                 margin: "0 0 8px",
               }}
             >
@@ -1008,7 +1082,7 @@ export default function App() {
             <p
               style={{
                 fontSize: "14px",
-                color: "#606B5A",
+                color: "#3F5494",
                 margin: "0 0 24px",
                 lineHeight: 1.5,
               }}
@@ -1048,8 +1122,8 @@ export default function App() {
                   style={{
                     padding: "12px 14px",
                     borderRadius: "12px",
-                    backgroundColor: "#EBF0E6",
-                    color: "#3B4733",
+                    backgroundColor: "#DCE7FC",
+                    color: "#22387A",
                     fontSize: "13px",
                     fontWeight: 600,
                     marginBottom: "18px",
@@ -1067,7 +1141,8 @@ export default function App() {
                   padding: "14px",
                   fontSize: "15px",
                   fontWeight: 700,
-                  backgroundColor: "#4B5842",
+                  background:
+                    "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
                   color: "#FFFFFF",
                   border: "none",
                   borderRadius: "999px",
@@ -1082,12 +1157,12 @@ export default function App() {
               style={{
                 marginTop: "22px",
                 paddingTop: "18px",
-                borderTop: "1px solid #E9EDE4",
+                borderTop: "1px solid #DCE5F8",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
                 fontSize: "13px",
-                color: "#6C7766",
+                color: "#4F65A3",
               }}
             >
               <span>아직 회원이 아니신가요?</span>
@@ -1097,7 +1172,7 @@ export default function App() {
                 style={{
                   background: "transparent",
                   border: "none",
-                  color: "#4B5842",
+                  color: "#22387A",
                   fontWeight: 700,
                   cursor: "pointer",
                   padding: 0,
@@ -1128,10 +1203,10 @@ export default function App() {
                 gap: "14px",
                 padding: "18px 16px",
                 backgroundColor: "rgba(255, 255, 255, 0.9)",
-                backdropFilter: "blur(10px)",
+                backdropFilter: "blur(12px)",
                 borderRadius: "20px",
-                border: "1px solid #DCE2D6",
-                boxShadow: "0 8px 24px rgba(59, 71, 51, 0.08)",
+                border: "1px solid #C4D2F2",
+                boxShadow: "0 8px 24px rgba(27, 46, 102, 0.1)",
               }}
             >
               {NAV_ITEMS.map((item) => {
@@ -1151,8 +1226,8 @@ export default function App() {
                       cursor: "pointer",
                       padding: "4px 2px",
                       fontSize: isActive ? "15px" : "13px",
-                      fontWeight: isActive ? 800 : 400,
-                      color: isActive ? "#3B4733" : "#8A9683",
+                      fontWeight: isActive ? 800 : 500,
+                      color: isActive ? "#1B2E68" : "#6B80B8",
                       transition: "all 0.25s ease",
                     }}
                   >
@@ -1162,7 +1237,7 @@ export default function App() {
                         width: isActive ? "10px" : "6px",
                         height: isActive ? "10px" : "6px",
                         borderRadius: "999px",
-                        backgroundColor: isActive ? "#4B5842" : "#C6D0BE",
+                        backgroundColor: isActive ? "#4C389E" : "#B0C4EA",
                         transition: "all 0.25s ease",
                       }}
                     />
@@ -1184,17 +1259,17 @@ export default function App() {
               position: "relative",
             }}
           >
-            {/* 은은한 카키 무대 조명 오라 */}
+            {/* 은은한 푸른 새벽 오라 */}
             <div
               style={{
                 position: "absolute",
-                top: isMobile ? "10px" : "20px",
-                right: isMobile ? "-40px" : "110px",
-                width: isMobile ? "220px" : "340px",
-                height: isMobile ? "220px" : "340px",
+                top: isMobile ? "10px" : "16px",
+                right: isMobile ? "-40px" : "100px",
+                width: isMobile ? "240px" : "360px",
+                height: isMobile ? "240px" : "360px",
                 borderRadius: "999px",
                 background:
-                  "radial-gradient(circle, rgba(132,153,115,0.28) 0%, rgba(244,245,240,0) 70%)",
+                  "radial-gradient(circle, rgba(37, 99, 235, 0.28) 0%, rgba(94, 61, 184, 0.14) 50%, rgba(227, 236, 252, 0) 72%)",
                 pointerEvents: "none",
                 animation: "pulseGlow 5s ease-in-out infinite",
               }}
@@ -1220,12 +1295,12 @@ export default function App() {
                   style={{
                     animation:
                       "gearLaunchRight 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both, floatGuitar 4.4s ease-in-out 1.25s infinite",
-                    background: "rgba(255, 255, 255, 0.94)",
+                    background: "rgba(255, 255, 255, 0.92)",
                     backdropFilter: "blur(8px)",
-                    border: "1px solid #D3DBD0",
+                    border: "1px solid #BDD0F5",
                     borderRadius: "28px",
                     padding: "18px 22px",
-                    boxShadow: "0 18px 36px rgba(59, 71, 51, 0.14)",
+                    boxShadow: "0 18px 36px rgba(27, 46, 102, 0.15)",
                     display: "flex",
                     alignItems: "center",
                     gap: "12px",
@@ -1234,20 +1309,20 @@ export default function App() {
                   <svg width="56" height="56" viewBox="0 0 64 64" fill="none">
                     <path
                       d="M49 9L55 15M44 14L50 20M36 22L48 10L54 16L42 28"
-                      stroke="#4B5842"
+                      stroke="#1E3A8A"
                       strokeWidth="3.5"
                       strokeLinecap="round"
                     />
                     <path
                       d="M28 24C23 23 18 26 16 31C14 35 10 37 8 42C6 48 11 56 19 57C26 58 31 53 33 49C36 45 41 44 43 39C45 34 42 29 37 27L28 24Z"
-                      fill="#B7C6AA"
-                      stroke="#3B4733"
+                      fill="#ADC5F5"
+                      stroke="#1E3A8A"
                       strokeWidth="3"
                     />
-                    <circle cx="24" cy="41" r="4.5" fill="#3B4733" />
+                    <circle cx="24" cy="41" r="4.5" fill="#1E3A8A" />
                     <path
                       d="M16 48L21 53"
-                      stroke="#3B4733"
+                      stroke="#1E3A8A"
                       strokeWidth="3"
                       strokeLinecap="round"
                     />
@@ -1257,7 +1332,7 @@ export default function App() {
                       style={{
                         fontSize: "11px",
                         fontWeight: 800,
-                        color: "#55644B",
+                        color: "#2C4696",
                         letterSpacing: "0.06em",
                       }}
                     >
@@ -1267,7 +1342,7 @@ export default function App() {
                       style={{
                         fontSize: "14px",
                         fontWeight: 800,
-                        color: "#1E241B",
+                        color: "#1B2E68",
                       }}
                     >
                       BAND & SESSION
@@ -1298,11 +1373,11 @@ export default function App() {
                     animation:
                       "gearLaunchLeft 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both, floatMic 4.8s ease-in-out 1.45s infinite",
                     background:
-                      "linear-gradient(135deg, #4B5842 0%, #687B5B 100%)",
+                      "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
                     color: "#FFFFFF",
                     borderRadius: "24px",
                     padding: "16px 20px",
-                    boxShadow: "0 18px 36px rgba(75, 88, 66, 0.25)",
+                    boxShadow: "0 18px 36px rgba(34, 62, 145, 0.28)",
                     display: "flex",
                     alignItems: "center",
                     gap: "12px",
@@ -1315,7 +1390,7 @@ export default function App() {
                       width="16"
                       height="26"
                       rx="8"
-                      fill="#E4EBDD"
+                      fill="#DCE7FC"
                       stroke="#FFFFFF"
                       strokeWidth="2.5"
                     />
@@ -1357,7 +1432,7 @@ export default function App() {
                             width: "4px",
                             height: "12px",
                             borderRadius: "999px",
-                            backgroundColor: "#E4EBDD",
+                            backgroundColor: "#DCE7FC",
                             animation: `soundWave 0.9s ease-in-out ${delay}s infinite`,
                           }}
                         />
@@ -1375,8 +1450,8 @@ export default function App() {
                 fontSize: "11px",
                 fontWeight: 700,
                 letterSpacing: "0.08em",
-                backgroundColor: "#E2E7DC",
-                color: "#4B5842",
+                backgroundColor: "#D4E0FA",
+                color: "#22387A",
                 borderRadius: "999px",
                 animation:
                   "heroRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both",
@@ -1389,10 +1464,10 @@ export default function App() {
               style={{
                 fontSize: isMobile ? "34px" : "52px",
                 lineHeight: 1.22,
-                fontWeight: 900,
+                fontWeight: 800,
                 margin: "18px 0 16px",
                 letterSpacing: "-0.02em",
-                color: "#1E241B",
+                color: "#1B2E68",
                 position: "relative",
                 zIndex: 5,
                 wordBreak: "keep-all",
@@ -1406,7 +1481,8 @@ export default function App() {
             <p
               style={{
                 fontSize: isMobile ? "16px" : "19px",
-                color: "#586352",
+                fontWeight: 500,
+                color: "#324A8F",
                 marginBottom: "28px",
                 animation:
                   "heroRise 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.26s both",
@@ -1429,8 +1505,8 @@ export default function App() {
                 <div
                   style={{
                     flex: 1,
-                    backgroundColor: "#FFFFFF",
-                    border: "1px solid #D3DBD0",
+                    backgroundColor: "rgba(255, 255, 255, 0.92)",
+                    border: "1px solid #BDD0F5",
                     borderRadius: "16px",
                     padding: "10px 14px",
                     display: "flex",
@@ -1444,7 +1520,7 @@ export default function App() {
                       style={{
                         fontSize: "10px",
                         fontWeight: 800,
-                        color: "#55644B",
+                        color: "#2C4696",
                       }}
                     >
                       LIVE SOUND
@@ -1453,7 +1529,7 @@ export default function App() {
                       style={{
                         fontSize: "12px",
                         fontWeight: 800,
-                        color: "#1E241B",
+                        color: "#1B2E68",
                       }}
                     >
                       BAND & SESSION
@@ -1464,7 +1540,7 @@ export default function App() {
                   style={{
                     flex: 1,
                     background:
-                      "linear-gradient(135deg, #4B5842 0%, #687B5B 100%)",
+                      "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
                     color: "#FFFFFF",
                     borderRadius: "16px",
                     padding: "10px 14px",
@@ -1479,7 +1555,7 @@ export default function App() {
                       style={{
                         fontSize: "10px",
                         fontWeight: 800,
-                        color: "#E4EBDD",
+                        color: "#DCE7FC",
                       }}
                     >
                       ON STAGE
@@ -1510,8 +1586,9 @@ export default function App() {
                   flex: isMobile ? "1 1 auto" : "none",
                   padding: isMobile ? "13px 20px" : "14px 24px",
                   fontSize: isMobile ? "14px" : "15px",
-                  fontWeight: 600,
-                  backgroundColor: "#4B5842",
+                  fontWeight: 700,
+                  background:
+                    "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
                   color: "#FFFFFF",
                   border: "none",
                   borderRadius: "999px",
@@ -1528,10 +1605,10 @@ export default function App() {
                   flex: isMobile ? "1 1 auto" : "none",
                   padding: isMobile ? "13px 20px" : "14px 24px",
                   fontSize: isMobile ? "14px" : "15px",
-                  fontWeight: 600,
-                  backgroundColor: "#FFFFFF",
-                  color: "#3B4733",
-                  border: "1px solid #CDD6C7",
+                  fontWeight: 700,
+                  backgroundColor: "rgba(255, 255, 255, 0.92)",
+                  color: "#22387A",
+                  border: "1px solid #B5C8EE",
                   borderRadius: "999px",
                   cursor: "pointer",
                 }}
@@ -1545,8 +1622,8 @@ export default function App() {
                 width: "100%",
                 borderRadius: isMobile ? "20px" : "24px",
                 overflow: "hidden",
-                border: "1px solid #DCE2D6",
-                boxShadow: "0 16px 38px rgba(59, 71, 51, 0.12)",
+                border: "1px solid #C4D2F2",
+                boxShadow: "0 16px 38px rgba(27, 46, 102, 0.15)",
                 animation:
                   "heroRise 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both",
                 transform: isMobile
@@ -1586,11 +1663,12 @@ export default function App() {
               <div
                 className="magic-card"
                 style={{
-                  background: "linear-gradient(135deg, #3B4733 0%, #5A6B4F 100%)",
+                  background:
+                    "linear-gradient(135deg, #162B6E 0%, #273B8C 52%, #4F389E 100%)",
                   color: "#FFFFFF",
                   borderRadius: isMobile ? "22px" : "28px",
                   padding: isMobile ? "32px 24px" : "56px 48px",
-                  boxShadow: "0 16px 36px rgba(59, 71, 51, 0.18)",
+                  boxShadow: "0 18px 40px rgba(22, 43, 110, 0.24)",
                 }}
               >
                 <p
@@ -1598,7 +1676,7 @@ export default function App() {
                     fontSize: "12px",
                     fontWeight: 700,
                     letterSpacing: "0.1em",
-                    color: "#D5DEC9",
+                    color: "#BED0FA",
                     marginBottom: "12px",
                   }}
                 >
@@ -1621,22 +1699,12 @@ export default function App() {
                 <p
                   style={{
                     fontSize: isMobile ? "14px" : "16px",
-                    color: "#E4EBDD",
-                    marginBottom: "10px",
+                    color: "#DCE7FC",
+                    marginBottom: isMobile ? "28px" : "40px",
                     lineHeight: 1.6,
                   }}
                 >
                   IT융합대학의 음악을 사랑하는 사람들이 모인 동아리 입니다
-                </p>
-                <p
-                  style={{
-                    fontSize: "13px",
-                    color: "#D5DEC9",
-                    marginBottom: isMobile ? "26px" : "36px",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  동방 위치 · IT융합대학 4층 4208호
                 </p>
 
                 <div
@@ -1652,7 +1720,7 @@ export default function App() {
                     <div
                       style={{
                         fontSize: isMobile ? "26px" : "32px",
-                        fontWeight: 900,
+                        fontWeight: 800,
                       }}
                     >
                       12+
@@ -1660,7 +1728,7 @@ export default function App() {
                     <div
                       style={{
                         fontSize: "13px",
-                        color: "#D5DEC9",
+                        color: "#BED0FA",
                         marginTop: "4px",
                       }}
                     >
@@ -1671,7 +1739,7 @@ export default function App() {
                     <div
                       style={{
                         fontSize: isMobile ? "26px" : "32px",
-                        fontWeight: 900,
+                        fontWeight: 800,
                       }}
                     >
                       45
@@ -1679,7 +1747,7 @@ export default function App() {
                     <div
                       style={{
                         fontSize: "13px",
-                        color: "#D5DEC9",
+                        color: "#BED0FA",
                         marginTop: "4px",
                       }}
                     >
@@ -1690,7 +1758,7 @@ export default function App() {
                     <div
                       style={{
                         fontSize: isMobile ? "26px" : "32px",
-                        fontWeight: 900,
+                        fontWeight: 800,
                       }}
                     >
                       매주 목요일
@@ -1698,43 +1766,12 @@ export default function App() {
                     <div
                       style={{
                         fontSize: "13px",
-                        color: "#D5DEC9",
+                        color: "#BED0FA",
                         marginTop: "4px",
                       }}
                     >
                       동아리 정기모임
                     </div>
-                  </div>
-                </div>
-
-                {/* 동아리 문의 안내 (작은 글씨) */}
-                <div
-                  style={{
-                    marginTop: "28px",
-                    paddingTop: "18px",
-                    borderTop: "1px solid rgba(255, 255, 255, 0.14)",
-                    fontSize: "12px",
-                    color: "#D5DEC9",
-                    lineHeight: 1.7,
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: isMobile ? "6px 14px" : "6px 20px",
-                      marginBottom: "4px",
-                    }}
-                  >
-                    <span>
-                      <strong style={{ color: "#FFFFFF" }}>문의</strong> · 회장
-                      정찬혁 010-3328-7002
-                    </span>
-                    <span>부회장 오창효 010-7200-5074</span>
-                    <span>총무 김나연 010-7610-5351</span>
-                  </div>
-                  <div style={{ fontSize: "11.5px", opacity: 0.9 }}>
-                    궁금한 점이나 가입 문의는 언제든 편하게 연락 주세요!
                   </div>
                 </div>
               </div>
@@ -1745,10 +1782,10 @@ export default function App() {
               <div
                 className="magic-card"
                 style={{
-                  backgroundColor: "#FFFFFF",
+                  backgroundColor: "rgba(255, 255, 255, 0.94)",
                   borderRadius: isMobile ? "22px" : "28px",
                   padding: isMobile ? "28px 22px" : "48px",
-                  border: "1px solid #DCE2D6",
+                  border: "1px solid #C4D2F2",
                 }}
               >
                 <div
@@ -1767,7 +1804,7 @@ export default function App() {
                         fontSize: "12px",
                         fontWeight: 700,
                         letterSpacing: "0.08em",
-                        color: "#55644B",
+                        color: "#2C4696",
                       }}
                     >
                       NOTICE
@@ -1777,13 +1814,13 @@ export default function App() {
                         fontSize: isMobile ? "24px" : "32px",
                         fontWeight: 800,
                         marginTop: "6px",
-                        color: "#1E241B",
+                        color: "#1B2E68",
                       }}
                     >
                       요즘 새벽소리에서는
                     </h2>
                   </div>
-                  <span style={{ fontSize: "12px", color: "#808C79" }}>
+                  <span style={{ fontSize: "12px", color: "#5E73AD" }}>
                     모든 공지는 회원 공간에서 확인
                   </span>
                 </div>
@@ -1816,8 +1853,8 @@ export default function App() {
                       justifyContent: "space-between",
                       alignItems: isMobile ? "flex-start" : "center",
                       padding: "20px 0",
-                      borderTop: "1px solid #E9EDE4",
-                      borderBottom: idx === 2 ? "1px solid #E9EDE4" : "none",
+                      borderTop: "1px solid #DCE5F8",
+                      borderBottom: idx === 2 ? "1px solid #DCE5F8" : "none",
                       gap: isMobile ? "10px" : "20px",
                     }}
                   >
@@ -1834,7 +1871,7 @@ export default function App() {
                         style={{
                           fontSize: "14px",
                           fontWeight: 800,
-                          color: "#55644B",
+                          color: "#2C4696",
                           paddingTop: "2px",
                           flexShrink: 0,
                         }}
@@ -1846,7 +1883,7 @@ export default function App() {
                           style={{
                             fontSize: isMobile ? "16px" : "18px",
                             fontWeight: 700,
-                            color: "#1E241B",
+                            color: "#1B2E68",
                             marginBottom: "6px",
                             textAlign: "left",
                           }}
@@ -1856,7 +1893,7 @@ export default function App() {
                         <div
                           style={{
                             fontSize: isMobile ? "13px" : "14px",
-                            color: "#606B5A",
+                            color: "#3F5494",
                             lineHeight: 1.5,
                             textAlign: "left",
                             wordBreak: "keep-all",
@@ -1869,7 +1906,7 @@ export default function App() {
                     <span
                       style={{
                         fontSize: "12px",
-                        color: "#808C79",
+                        color: "#5E73AD",
                         whiteSpace: "nowrap",
                         paddingLeft: isMobile ? "28px" : "0",
                         flexShrink: 0,
@@ -1886,10 +1923,11 @@ export default function App() {
             <RevealSection id="schedule">
               <div
                 style={{
-                  backgroundColor: "#E8ECE2",
+                  background:
+                    "linear-gradient(135deg, #D1E1FA 0%, #DCE0F9 100%)",
                   borderRadius: isMobile ? "22px" : "28px",
                   padding: isMobile ? "28px 22px" : "48px",
-                  border: "1px solid #D3DBD0",
+                  border: "1px solid #BDD0F5",
                 }}
               >
                 <span
@@ -1897,7 +1935,7 @@ export default function App() {
                     fontSize: "12px",
                     fontWeight: 700,
                     letterSpacing: "0.08em",
-                    color: "#55644B",
+                    color: "#2C4696",
                   }}
                 >
                   SCHEDULE
@@ -1907,7 +1945,7 @@ export default function App() {
                     fontSize: isMobile ? "24px" : "32px",
                     fontWeight: 800,
                     margin: "6px 0 22px",
-                    color: "#1E241B",
+                    color: "#1B2E68",
                   }}
                 >
                   주요일정
@@ -1941,10 +1979,10 @@ export default function App() {
                       key={sched.title}
                       className="magic-card"
                       style={{
-                        backgroundColor: "#FFFFFF",
+                        backgroundColor: "rgba(255, 255, 255, 0.94)",
                         borderRadius: "18px",
                         padding: "20px",
-                        border: "1px solid #DCE2D6",
+                        border: "1px solid #C4D2F2",
                       }}
                     >
                       <span
@@ -1952,8 +1990,8 @@ export default function App() {
                           display: "inline-block",
                           fontSize: "12px",
                           fontWeight: 700,
-                          color: "#4B5842",
-                          backgroundColor: "#EBF0E6",
+                          color: "#22387A",
+                          backgroundColor: "#DCE7FC",
                           padding: "4px 10px",
                           borderRadius: "999px",
                           marginBottom: "10px",
@@ -1965,7 +2003,7 @@ export default function App() {
                         style={{
                           fontSize: "16px",
                           fontWeight: 700,
-                          color: "#1E241B",
+                          color: "#1B2E68",
                           marginBottom: "6px",
                         }}
                       >
@@ -1974,7 +2012,7 @@ export default function App() {
                       <p
                         style={{
                           fontSize: "13px",
-                          color: "#6C7766",
+                          color: "#4B619E",
                           margin: 0,
                         }}
                       >
@@ -1986,15 +2024,15 @@ export default function App() {
               </div>
             </RevealSection>
 
-            {/* 4. 사진 섹션 + 인스타그램 링크 연결 */}
+            {/* 4. 사진 섹션 + 인스타그램 & 유튜브 링크 연결 */}
             <RevealSection id="gallery">
               <div
                 className="magic-card"
                 style={{
-                  backgroundColor: "#FFFFFF",
+                  backgroundColor: "rgba(255, 255, 255, 0.94)",
                   borderRadius: isMobile ? "22px" : "28px",
                   padding: isMobile ? "28px 22px" : "48px",
-                  border: "1px solid #DCE2D6",
+                  border: "1px solid #C4D2F2",
                 }}
               >
                 <div
@@ -2013,7 +2051,7 @@ export default function App() {
                         fontSize: "12px",
                         fontWeight: 700,
                         letterSpacing: "0.08em",
-                        color: "#55644B",
+                        color: "#2C4696",
                       }}
                     >
                       OUR MOMENTS
@@ -2023,29 +2061,55 @@ export default function App() {
                         fontSize: isMobile ? "24px" : "32px",
                         fontWeight: 800,
                         marginTop: "6px",
-                        color: "#1E241B",
+                        color: "#1B2E68",
                       }}
                     >
                       우리가 함께한 순간
                     </h2>
                   </div>
-                  <a
-                    href={INSTAGRAM_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <div
                     style={{
-                      display: "inline-flex",
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "14px",
                       alignItems: "center",
-                      gap: "6px",
-                      fontSize: "13px",
-                      fontWeight: 700,
-                      color: "#4B5842",
-                      textDecoration: "none",
                     }}
                   >
-                    <InstagramIcon size={15} />
-                    <span>@daybreak_sound에서 더 보기 ↗</span>
-                  </a>
+                    <a
+                      href={INSTAGRAM_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        fontSize: "13px",
+                        fontWeight: 700,
+                        color: "#22387A",
+                        textDecoration: "none",
+                      }}
+                    >
+                      <InstagramIcon size={15} />
+                      <span>@daybreak_sound ↗</span>
+                    </a>
+                    <a
+                      href={YOUTUBE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        fontSize: "13px",
+                        fontWeight: 700,
+                        color: "#22387A",
+                        textDecoration: "none",
+                      }}
+                    >
+                      <YoutubeIcon size={15} />
+                      <span>@Chanhyeok_ss ↗</span>
+                    </a>
+                  </div>
                 </div>
 
                 <div
@@ -2067,38 +2131,66 @@ export default function App() {
                       }}
                     />
                   </div>
-                  <a
-                    href={INSTAGRAM_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <div
                     style={{
                       borderRadius: "18px",
                       background:
-                        "linear-gradient(160deg, #D3DEC8 0%, #A9BA9B 100%)",
+                        "linear-gradient(155deg, #1E3A8A 0%, #3B49C8 55%, #6B46C1 100%)",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
                       gap: "20px",
                       padding: "24px",
-                      color: "#1E241B",
-                      textDecoration: "none",
+                      color: "#FFFFFF",
                     }}
                   >
                     <div
                       style={{
-                        display: "inline-flex",
-                        alignItems: "center",
+                        display: "flex",
+                        flexWrap: "wrap",
                         gap: "8px",
-                        alignSelf: "flex-start",
-                        backgroundColor: "rgba(255, 255, 255, 0.75)",
-                        padding: "7px 12px",
-                        borderRadius: "999px",
-                        fontSize: "12px",
-                        fontWeight: 800,
                       }}
                     >
-                      <InstagramIcon size={15} />
-                      <span>@daybreak_sound</span>
+                      <a
+                        href={INSTAGRAM_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          backgroundColor: "rgba(255, 255, 255, 0.18)",
+                          color: "#FFFFFF",
+                          padding: "7px 12px",
+                          borderRadius: "999px",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          textDecoration: "none",
+                        }}
+                      >
+                        <InstagramIcon size={14} />
+                        <span>Instagram</span>
+                      </a>
+                      <a
+                        href={YOUTUBE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          backgroundColor: "rgba(255, 255, 255, 0.18)",
+                          color: "#FFFFFF",
+                          padding: "7px 12px",
+                          borderRadius: "999px",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          textDecoration: "none",
+                        }}
+                      >
+                        <YoutubeIcon size={14} />
+                        <span>YouTube</span>
+                      </a>
                     </div>
 
                     <div>
@@ -2106,6 +2198,7 @@ export default function App() {
                         style={{
                           fontSize: "12px",
                           fontWeight: 700,
+                          color: "#BED0FA",
                           marginBottom: "6px",
                         }}
                       >
@@ -2123,17 +2216,21 @@ export default function App() {
                         <br />
                         무대 위의 순간까지
                       </div>
-                      <span
+                      <a
+                        href={YOUTUBE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         style={{
                           fontSize: "13px",
                           fontWeight: 700,
-                          color: "#3B4733",
+                          color: "#DCE7FC",
+                          textDecoration: "none",
                         }}
                       >
-                        공식 인스타그램 바로가기 →
-                      </span>
+                        공식 유튜브 영상 보러가기 →
+                      </a>
                     </div>
-                  </a>
+                  </div>
                 </div>
               </div>
             </RevealSection>
@@ -2145,36 +2242,95 @@ export default function App() {
               maxWidth: "1040px",
               margin: "0 auto",
               padding: isMobile ? "24px 20px 44px" : "28px 96px 56px 48px",
-              borderTop: "1px solid #DCE2D6",
+              borderTop: "1px solid #C4D2F2",
               display: "flex",
-              flexDirection: isMobile ? "column" : "row",
-              justifyContent: "space-between",
-              alignItems: isMobile ? "flex-start" : "center",
-              gap: "12px",
-              fontSize: "13px",
-              color: "#6C7766",
+              flexDirection: "column",
+              gap: "10px",
+              fontSize: "12px",
+              color: "#4B619E",
             }}
           >
-            <div>
-              <strong style={{ color: "#263020" }}>새벽소리.</strong> — IT융합대학
-              동아리
-            </div>
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <div
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                color: "#4B5842",
-                fontWeight: 700,
-                textDecoration: "none",
+                display: "flex",
+                flexDirection: isMobile ? "column" : "row",
+                justifyContent: "space-between",
+                alignItems: isMobile ? "flex-start" : "center",
+                gap: "8px",
               }}
             >
-              <InstagramIcon size={15} />
-              <span>instagram.com/daybreak_sound</span>
-            </a>
+              <div>
+                <strong
+                  style={{
+                    color: "#1B2E68",
+                    fontSize: "13px",
+                  }}
+                >
+                  새벽소리.
+                </strong>{" "}
+                — IT융합대학 4층 4208호
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "14px",
+                  alignItems: "center",
+                }}
+              >
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    color: "#22387A",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  <InstagramIcon size={14} />
+                  <span>@daybreak_sound</span>
+                </a>
+                <a
+                  href={YOUTUBE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    color: "#22387A",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  <YoutubeIcon size={14} />
+                  <span>youtube.com/@Chanhyeok_ss</span>
+                </a>
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: isMobile ? "4px 12px" : "4px 18px",
+                fontSize: "11.5px",
+                color: "#576EA8",
+                lineHeight: 1.6,
+              }}
+            >
+              <span>문의 · 회장 정찬혁 010-3328-7002</span>
+              <span>부회장 오창효 010-7200-5074</span>
+              <span>총무 김나연 010-7610-5351</span>
+            </div>
+
+            <div style={{ fontSize: "11px", color: "#687FB8" }}>
+              궁금한 점이나 가입 문의는 언제든 편하게 연락 주세요!
+            </div>
           </footer>
         </>
       )}
