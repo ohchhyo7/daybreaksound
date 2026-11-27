@@ -10,7 +10,7 @@ import clubPhoto from "./assets/db-cp.jpg";
 import clubLogoNk from "./assets/db-logonk.png";
 
 type SectionId = "intro" | "news" | "schedule" | "gallery";
-type PageView = "home" | "rule" | "apply" | "login";
+type PageView = "home" | "about" | "rule" | "apply" | "login";
 
 const INSTAGRAM_URL = "https://www.instagram.com/daybreak_sound/";
 const YOUTUBE_URL = "https://www.youtube.com/@Chanhyeok_ss";
@@ -104,7 +104,6 @@ function YoutubeIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-// 스크롤 시 입체적으로 떠오르는 섹션 래퍼
 function RevealSection({
   id,
   children,
@@ -180,7 +179,6 @@ export default function App() {
     typeof window !== "undefined" ? window.innerWidth <= 768 : false
   );
 
-  // 화면 크기 변화 감지 (모바일/데스크톱 자동 전환)
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -190,7 +188,6 @@ export default function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // 신입 지원 폼 상태
   const [applyForm, setApplyForm] = useState({
     name: "",
     email: "",
@@ -201,7 +198,6 @@ export default function App() {
   });
   const [applySubmitted, setApplySubmitted] = useState(false);
 
-  // 회원 로그인 폼 상태
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
@@ -244,6 +240,11 @@ export default function App() {
     setPage("home");
     setApplySubmitted(false);
     setLoginMessage("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const openAbout = () => {
+    setPage("about");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -304,7 +305,6 @@ export default function App() {
         position: "relative",
       }}
     >
-      {/* 전체 요소 글씨체 통일 및 애니메이션 키프레임 정의 */}
       <style>{`
         *, *::before, *::after {
           font-family: ${UNIFIED_FONT};
@@ -439,8 +439,8 @@ export default function App() {
           flexWrap: "wrap",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: "10px",
-          padding: isMobile ? "10px 16px" : "12px 48px",
+          gap: "8px",
+          padding: isMobile ? "10px 14px" : "12px 48px",
           backgroundColor: "rgba(227, 236, 252, 0.88)",
           backdropFilter: "blur(14px)",
           borderBottom: "1px solid #C4D2F2",
@@ -463,7 +463,7 @@ export default function App() {
             src={clubLogoNk}
             alt="새벽소리 로고"
             style={{
-              height: isMobile ? "34px" : "42px",
+              height: isMobile ? "32px" : "40px",
               width: "auto",
               objectFit: "contain",
               display: "block",
@@ -475,17 +475,40 @@ export default function App() {
           style={{
             display: "flex",
             flexWrap: "wrap",
-            gap: isMobile ? "6px" : "10px",
+            gap: isMobile ? "5px" : "7px",
             alignItems: "center",
           }}
         >
           <button
             type="button"
+            onClick={openAbout}
+            className="magic-btn"
+            style={{
+              padding: isMobile ? "6px 9px" : "7px 11px",
+              fontSize: isMobile ? "11px" : "12px",
+              fontWeight: 700,
+              color: page === "about" ? "#FFFFFF" : "#22387A",
+              background:
+                page === "about"
+                  ? "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)"
+                  : "rgba(255, 255, 255, 0.92)",
+              border: page === "about" ? "none" : "1px solid #BDD0F5",
+              borderRadius: "999px",
+              cursor: "pointer",
+              lineHeight: 1.2,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {isMobile ? "소개" : "동아리 소개"}
+          </button>
+
+          <button
+            type="button"
             onClick={openRule}
             className="magic-btn"
             style={{
-              padding: isMobile ? "7px 11px" : "8px 14px",
-              fontSize: isMobile ? "12px" : "13px",
+              padding: isMobile ? "6px 10px" : "7px 11px",
+              fontSize: isMobile ? "11px" : "12px",
               fontWeight: 700,
               color: page === "rule" ? "#FFFFFF" : "#22387A",
               background:
@@ -495,9 +518,11 @@ export default function App() {
               border: "none",
               borderRadius: "999px",
               cursor: "pointer",
+              lineHeight: 1.2,
+              whiteSpace: "nowrap",
             }}
           >
-            {isMobile ? "RULE" : "새벽소리 RULE"}
+            새소RULE
           </button>
 
           <a
@@ -505,14 +530,14 @@ export default function App() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="새벽소리 인스타그램"
+            title="Instagram"
             className="magic-btn"
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "5px",
-              padding: isMobile ? "7px 10px" : "8px 14px",
-              fontSize: isMobile ? "12px" : "13px",
-              fontWeight: 600,
+              justifyContent: "center",
+              width: isMobile ? "30px" : "32px",
+              height: isMobile ? "30px" : "32px",
               color: "#22387A",
               backgroundColor: "rgba(255, 255, 255, 0.92)",
               border: "1px solid #BDD0F5",
@@ -521,7 +546,6 @@ export default function App() {
             }}
           >
             <InstagramIcon size={15} />
-            {!isMobile && <span>Instagram</span>}
           </a>
 
           <a
@@ -529,14 +553,14 @@ export default function App() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="새벽소리 유튜브"
+            title="YouTube"
             className="magic-btn"
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "5px",
-              padding: isMobile ? "7px 10px" : "8px 14px",
-              fontSize: isMobile ? "12px" : "13px",
-              fontWeight: 600,
+              justifyContent: "center",
+              width: isMobile ? "30px" : "32px",
+              height: isMobile ? "30px" : "32px",
               color: "#22387A",
               backgroundColor: "rgba(255, 255, 255, 0.92)",
               border: "1px solid #BDD0F5",
@@ -545,7 +569,6 @@ export default function App() {
             }}
           >
             <YoutubeIcon size={15} />
-            {!isMobile && <span>YouTube</span>}
           </a>
 
           <button
@@ -553,14 +576,16 @@ export default function App() {
             onClick={openLogin}
             className="magic-btn"
             style={{
-              padding: isMobile ? "7px 10px" : "8px 14px",
-              fontSize: isMobile ? "12px" : "13px",
+              padding: isMobile ? "6px 9px" : "7px 11px",
+              fontSize: isMobile ? "11px" : "12px",
               fontWeight: page === "login" ? 700 : 600,
               color: page === "login" ? "#1B2E68" : "#2D448A",
               background: page === "login" ? "#D4E0FA" : "transparent",
               border: "none",
               borderRadius: "999px",
               cursor: "pointer",
+              lineHeight: 1.2,
+              whiteSpace: "nowrap",
             }}
           >
             {isMobile ? "로그인" : "회원 로그인"}
@@ -571,8 +596,8 @@ export default function App() {
             onClick={openApply}
             className="magic-btn"
             style={{
-              padding: isMobile ? "7px 13px" : "9px 18px",
-              fontSize: isMobile ? "12px" : "13px",
+              padding: isMobile ? "6px 11px" : "7px 14px",
+              fontSize: isMobile ? "11px" : "12px",
               fontWeight: 600,
               background:
                 page === "apply"
@@ -582,6 +607,8 @@ export default function App() {
               border: "none",
               borderRadius: "999px",
               cursor: "pointer",
+              lineHeight: 1.2,
+              whiteSpace: "nowrap",
             }}
           >
             신입 지원
@@ -589,7 +616,465 @@ export default function App() {
         </div>
       </header>
 
-      {/* ===================== 0. 새벽소리 RULE 화면 ===================== */}
+      {/* ===================== 0-A. 자세한 동아리 소개 화면 ===================== */}
+      {page === "about" && (
+        <div
+          style={{
+            maxWidth: "880px",
+            margin: "0 auto",
+            padding: isMobile ? "32px 20px 80px" : "56px 36px 110px",
+            animation: "heroRise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both",
+          }}
+        >
+          <button
+            type="button"
+            onClick={goHome}
+            style={{
+              background: "transparent",
+              border: "none",
+              color: "#2C4696",
+              fontSize: "13px",
+              fontWeight: 700,
+              cursor: "pointer",
+              padding: 0,
+              marginBottom: "20px",
+            }}
+          >
+            ← 홈으로 돌아가기
+          </button>
+
+          {/* 히어로 배너 카드 */}
+          <div
+            style={{
+              background:
+                "linear-gradient(135deg, #162B6E 0%, #273B8C 52%, #4F389E 100%)",
+              color: "#FFFFFF",
+              borderRadius: isMobile ? "22px" : "28px",
+              padding: isMobile ? "30px 22px" : "48px 44px",
+              boxShadow: "0 18px 40px rgba(22, 43, 110, 0.22)",
+              marginBottom: "24px",
+            }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                padding: "6px 13px",
+                fontSize: "11px",
+                fontWeight: 800,
+                letterSpacing: "0.08em",
+                backgroundColor: "rgba(255, 255, 255, 0.16)",
+                color: "#DCE7FC",
+                borderRadius: "999px",
+                marginBottom: "16px",
+              }}
+            >
+              SINCE 1988 · CHOSUN UNIV. IT CONVERGENCE
+            </div>
+
+            <h1
+              style={{
+                fontSize: isMobile ? "25px" : "36px",
+                fontWeight: 800,
+                lineHeight: 1.38,
+                color: "#FFFFFF",
+                margin: "0 0 24px",
+                letterSpacing: "-0.02em",
+                wordBreak: "keep-all",
+              }}
+            >
+              1980년대 초의 울림에서 시작해, 오늘날의 무대를 채우는 IT융합대학 대표 밴드 동아리 &apos;새벽소리&apos;
+            </h1>
+
+            {/* 핵심 요약 배지 4개 */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: isMobile
+                  ? "repeat(2, 1fr)"
+                  : "repeat(4, 1fr)",
+                gap: "12px",
+                borderTop: "1px solid rgba(255, 255, 255, 0.2)",
+                paddingTop: "20px",
+              }}
+            >
+              {[
+                { label: "공식 창립", value: "1988년" },
+                { label: "이어온 전통", value: "현재 38기" },
+                { label: "정기공연", value: "제18회 완료" },
+                { label: "활동 공간", value: "IT융합대 4208호" },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    borderRadius: "14px",
+                    padding: "12px 14px",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "11px",
+                      color: "#BED0FA",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {stat.label}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: isMobile ? "16px" : "18px",
+                      fontWeight: 800,
+                      color: "#FFFFFF",
+                    }}
+                  >
+                    {stat.value}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 본문 3개 스토리 섹션 */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "18px",
+            }}
+          >
+            {/* 1. 우리의 역사와 발자취 */}
+            <div
+              className="magic-card"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.94)",
+                borderRadius: "22px",
+                padding: isMobile ? "24px 20px" : "34px 36px",
+                border: "1px solid #C4D2F2",
+                boxShadow: "0 8px 22px rgba(27, 46, 102, 0.06)",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  marginBottom: "14px",
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "28px",
+                    height: "28px",
+                    borderRadius: "999px",
+                    background:
+                      "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
+                    color: "#FFFFFF",
+                    fontSize: "12px",
+                    fontWeight: 800,
+                    flexShrink: 0,
+                  }}
+                >
+                  01
+                </span>
+                <h2
+                  style={{
+                    fontSize: isMobile ? "20px" : "24px",
+                    fontWeight: 800,
+                    color: "#1B2E68",
+                    margin: 0,
+                  }}
+                >
+                  우리의 역사와 발자취
+                </h2>
+              </div>
+
+              <p
+                style={{
+                  fontSize: isMobile ? "14px" : "15.5px",
+                  color: "#2C4285",
+                  lineHeight: 1.8,
+                  margin: "0 0 14px",
+                  wordBreak: "keep-all",
+                }}
+              >
+                새벽소리는 1980년대 초반, 음악을 사랑하는 학우들의 자발적인 모임으로 첫발을 내디뎠습니다. 이후 탄탄한 체계를 갖추며 1988년 공식 창립되어 현재 38기에 이르기까지, 조선대학교 단과대 밴드 동아리 중 가장 오랜 역사와 전통을 이어오고 있습니다.
+              </p>
+
+              <p
+                style={{
+                  fontSize: isMobile ? "14px" : "15.5px",
+                  color: "#2C4285",
+                  lineHeight: 1.8,
+                  margin: "0 0 18px",
+                  wordBreak: "keep-all",
+                }}
+              >
+                공과대학 컴퓨터공학과 동아리로 출발한 새벽소리는 2010년대 초반 이후 컴퓨터공학, 인공지능공학, 정보통신공학, 정보보안학, 전자공학 등 IT융합대학의 다양한 전공 학우들이 함께 어우러져 음악으로 소통하는 공간으로 확장되었습니다.
+              </p>
+
+              {/* 함께하는 전공 태그 */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                }}
+              >
+                {[
+                  "컴퓨터공학",
+                  "인공지능공학",
+                  "정보통신공학",
+                  "정보보안학",
+                  "전자공학",
+                ].map((major) => (
+                  <span
+                    key={major}
+                    style={{
+                      padding: "5px 12px",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      borderRadius: "999px",
+                      backgroundColor: "#E3ECFC",
+                      color: "#22387A",
+                    }}
+                  >
+                    #{major}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* 2. 이름에 담긴 이야기 */}
+            <div
+              className="magic-card"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.94)",
+                borderRadius: "22px",
+                padding: isMobile ? "24px 20px" : "34px 36px",
+                border: "1px solid #C4D2F2",
+                boxShadow: "0 8px 22px rgba(27, 46, 102, 0.06)",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  marginBottom: "14px",
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "28px",
+                    height: "28px",
+                    borderRadius: "999px",
+                    background:
+                      "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
+                    color: "#FFFFFF",
+                    fontSize: "12px",
+                    fontWeight: 800,
+                    flexShrink: 0,
+                  }}
+                >
+                  02
+                </span>
+                <h2
+                  style={{
+                    fontSize: isMobile ? "20px" : "24px",
+                    fontWeight: 800,
+                    color: "#1B2E68",
+                    margin: 0,
+                  }}
+                >
+                  이름에 담긴 이야기
+                </h2>
+              </div>
+
+              <p
+                style={{
+                  fontSize: isMobile ? "14px" : "15.5px",
+                  color: "#2C4285",
+                  lineHeight: 1.8,
+                  margin: 0,
+                  wordBreak: "keep-all",
+                }}
+              >
+                &apos;새벽소리&apos;라는 이름에는 여러 흥미로운 유래가 전해집니다. 1980년대 광주와 1988년이라는 시대적 배경 속에서 &apos;어둠을 걷어내고 새벽을 깨우는 소리&apos;라는 깊은 의미를 담았다는 이야기부터, 선배들이 직관적이고 담백하게 지었다는 유쾌한 비화까지—그 모든 이야기가 모여 지금의 새벽소리를 만들었습니다.
+              </p>
+            </div>
+
+            {/* 3. 우리의 무대와 음악 */}
+            <div
+              className="magic-card"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.94)",
+                borderRadius: "22px",
+                padding: isMobile ? "24px 20px" : "34px 36px",
+                border: "1px solid #C4D2F2",
+                boxShadow: "0 8px 22px rgba(27, 46, 102, 0.06)",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  marginBottom: "14px",
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "28px",
+                    height: "28px",
+                    borderRadius: "999px",
+                    background:
+                      "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
+                    color: "#FFFFFF",
+                    fontSize: "12px",
+                    fontWeight: 800,
+                    flexShrink: 0,
+                  }}
+                >
+                  03
+                </span>
+                <h2
+                  style={{
+                    fontSize: isMobile ? "20px" : "24px",
+                    fontWeight: 800,
+                    color: "#1B2E68",
+                    margin: 0,
+                  }}
+                >
+                  우리의 무대와 음악
+                </h2>
+              </div>
+
+              <p
+                style={{
+                  fontSize: isMobile ? "14px" : "15.5px",
+                  color: "#2C4285",
+                  lineHeight: 1.8,
+                  margin: "0 0 14px",
+                  wordBreak: "keep-all",
+                }}
+              >
+                2008년 첫 정기공연을 시작으로 올해 제18회 정기공연을 성공적으로 마치며 매년 뜨거운 무대를 선보이고 있습니다.
+              </p>
+
+              <p
+                style={{
+                  fontSize: isMobile ? "14px" : "15.5px",
+                  color: "#2C4285",
+                  lineHeight: 1.8,
+                  margin: "0 0 20px",
+                  wordBreak: "keep-all",
+                }}
+              >
+                보컬, 기타(일렉·통기타), 베이스, 피아노(건반), 퍼커션까지 다채로운 세션이 어우러져 어쿠스틱의 따뜻한 감성부터 폭발적인 밴드 사운드까지 폭넓은 음악을 만들어갑니다. 전공의 경계를 넘어 음악이라는 하나의 언어로 합을 맞추는 곳, 새벽소리에서 여러분의 대학 생활에 잊지 못할 한 추억을 만들어 보세요!
+              </p>
+
+              {/* 세션 배지 */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                }}
+              >
+                {[
+                  "보컬",
+                  "기타 (일렉·통기타)",
+                  "베이스",
+                  "피아노 (건반)",
+                  "퍼커션",
+                ].map((session) => (
+                  <span
+                    key={session}
+                    style={{
+                      padding: "6px 13px",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      borderRadius: "999px",
+                      backgroundColor: "#DCE7FC",
+                      color: "#1B2E68",
+                    }}
+                  >
+                    {session}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* 하단 신입 지원 연결 배너 */}
+          <div
+            style={{
+              marginTop: "26px",
+              background:
+                "linear-gradient(135deg, #D1E1FA 0%, #DCE0F9 100%)",
+              border: "1px solid #BDD0F5",
+              borderRadius: "22px",
+              padding: isMobile ? "22px 20px" : "28px 34px",
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              justifyContent: "space-between",
+              alignItems: isMobile ? "flex-start" : "center",
+              gap: "16px",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontSize: isMobile ? "17px" : "20px",
+                  fontWeight: 800,
+                  color: "#1B2E68",
+                  marginBottom: "4px",
+                }}
+              >
+                38기의 새로운 울림을 함께 채워갈 주인공을 기다립니다
+              </div>
+              <div
+                style={{
+                  fontSize: "13.5px",
+                  color: "#3F5494",
+                }}
+              >
+                IT융합대학 학우라면 악기를 처음 다뤄보더라도 언제든 환영합니다!
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={openApply}
+              className="magic-btn"
+              style={{
+                padding: "13px 24px",
+                fontSize: "14px",
+                fontWeight: 700,
+                background:
+                  "linear-gradient(135deg, #1E3A8A 0%, #4C389E 100%)",
+                color: "#FFFFFF",
+                border: "none",
+                borderRadius: "999px",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              신입 지원하기 →
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ===================== 0-B. 새벽소리 RULE 화면 ===================== */}
       {page === "rule" && (
         <div
           style={{
@@ -1658,7 +2143,7 @@ export default function App() {
               gap: isMobile ? "36px" : "72px",
             }}
           >
-            {/* 1. 소개 섹션 */}
+            {/* 1. 소개 섹션 (기존 유지 + 자세한 소개 페이지 연결 버튼) */}
             <RevealSection id="intro">
               <div
                 className="magic-card"
@@ -1700,12 +2185,32 @@ export default function App() {
                   style={{
                     fontSize: isMobile ? "14px" : "16px",
                     color: "#DCE7FC",
-                    marginBottom: isMobile ? "28px" : "40px",
+                    marginBottom: "22px",
                     lineHeight: 1.6,
                   }}
                 >
                   IT융합대학의 음악을 사랑하는 사람들이 모인 동아리 입니다
                 </p>
+
+                <div style={{ marginBottom: isMobile ? "26px" : "36px" }}>
+                  <button
+                    type="button"
+                    onClick={openAbout}
+                    className="magic-btn"
+                    style={{
+                      padding: "11px 20px",
+                      fontSize: "13px",
+                      fontWeight: 700,
+                      color: "#1B2E68",
+                      backgroundColor: "#FFFFFF",
+                      border: "none",
+                      borderRadius: "999px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    동아리 소개 자세히 보기 →
+                  </button>
+                </div>
 
                 <div
                   style={{
